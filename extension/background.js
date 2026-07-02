@@ -1431,6 +1431,19 @@ async function startAdminAutoSave() {
               
               // Salva no cache local para a próxima comparação
               lastSavedSessionHashes[domain] = sessionString;
+
+              // 9. Exibe aviso visual para o administrador saber que sincronizou
+              try {
+                chrome.notifications.create(`sync_${domain}_${Date.now()}`, {
+                  type: "basic",
+                  iconUrl: "icons/Share-128.png",
+                  title: "Navegador Infinity AI",
+                  message: `Sessão do domínio ${domain} sincronizada com sucesso no banco de dados!`,
+                  priority: 1
+                });
+              } catch (notifErr) {
+                console.warn("[AutoSave] Erro ao criar notificação visual:", notifErr);
+              }
             }
           } catch (err) {
             // Ignora falhas de parse de URL nas abas

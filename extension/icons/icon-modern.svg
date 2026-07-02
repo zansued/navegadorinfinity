@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#FFE84D"/>
+      <stop offset="40%" stop-color="#FFDD00"/>
+      <stop offset="100%" stop-color="#F0B800"/>
+    </linearGradient>
+    <linearGradient id="sparkle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFEF0"/>
+      <stop offset="100%" stop-color="#FFE84D"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect width="128" height="128" rx="26" ry="26" fill="url(#bg)"/>
+
+  <!-- Subtle faceted light shapes for metallic feel -->
+  <polygon points="0,0 70,0 30,60" fill="#FFEC70" opacity="0.35"/>
+  <polygon points="128,50 128,128 60,128" fill="#E5AE00" opacity="0.25"/>
+  <polygon points="40,0 128,0 128,80" fill="#FFF0A0" opacity="0.2"/>
+
+  <!-- S shadow -->
+  <text x="66" y="101" text-anchor="middle" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="92" font-weight="800" fill="#000" opacity="0.15">S</text>
+
+  <!-- S black -->
+  <text x="64" y="99" text-anchor="middle" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="92" font-weight="800" fill="#1A1A1A">S</text>
+
+  <!-- Sparkle top-right -->
+  <path d="M102 20 L104.5 27 L112 29.5 L104.5 32 L102 39 L99.5 32 L92 29.5 L99.5 27 Z" fill="url(#sparkle)" opacity="0.9"/>
+
+  <!-- Sparkle small -->
+  <path d="M82 12 L83.5 16 L87.5 17.5 L83.5 19 L82 23 L80.5 19 L76.5 17.5 L80.5 16 Z" fill="#FFFEF0" opacity="0.85"/>
+
+  <!-- Sparkle right -->
+  <path d="M113 54 L114.5 58 L118.5 59.5 L114.5 61 L113 63 L111.5 59 L107.5 57.5 L111.5 56 Z" fill="#FFFEF0" opacity="0.65"/>
+
+  <!-- Tiny sparkle dots -->
+  <circle cx="92" cy="11" r="1.5" fill="#FFFEF0" opacity="0.75"/>
+  <circle cx="119" cy="44" r="1.2" fill="#FFFEF0" opacity="0.5"/>
+</svg>

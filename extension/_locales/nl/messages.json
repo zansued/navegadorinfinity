@@ -1,0 +1,326 @@
+{
+  "SideBar_Welcome_To_SharePass": {
+    "message": "Welkom bij SharePass"
+  },
+  "SideBar_Getting_Started": {
+    "message": "Beginnen"
+  },
+  "welcomeReady_to_SharePass": {
+    "message": "Klaar om SharePass?"
+  },
+  "Get_Started_TagLine": {
+    "message": "Ga binnen enkele seconden aan de slag. Word professioneel in minder."
+  },
+  "Get_Started_Button": {
+    "message": "Begin"
+  },
+  "welcomeGetStartedHeader": {
+    "message": "Beginnen"
+  },
+  "welcomeGetStartedText": {
+    "message": "Volg de onderstaande stappen om de installatie te voltooien."
+  },
+  "Pin_SharePass_Title": {
+    "message": "1. SharePass extensie vastzetten"
+  },
+  "Pin_SharePass_Text": {
+    "message": "Klik op het pictogram 'Puzzel' zoals te zien in de video aan de rechterkant en SharePass <span style='background-color:yellow;'> Extensie vastzetten 📌</span> zodat je nooit meldingen mist!"
+  },
+  "Sign_Up_Title": {
+    "message": "2. Inschrijven"
+  },
+  "Sign_Up_Text": {
+    "message": "Klik op het '<span style='background-color:#ffdd00; font-weight: bold;'>S</span>' pictogram om de SharePass extensie te starten en kies een gebruikersnaam om binnen enkele seconden te registreren."
+  },
+  "Share_First_Account_Title": {
+    "message": "3. Deel uw eerste account!"
+  },
+  "Share_First_Account_Text": {
+    "message": "Volg de <a style='text-decoration: underline; background-color:lightgreen' href='https://sharepass.github.io#two'>Gebruikershandleiding</a> om uw eerste account met een vriend te delen!"
+  },
+  "Welcome_Rate_Us_Title": {
+    "message": "4. Beoordeel ons"
+  },
+  "Welcome_Rate_Us_Text": {
+    "message": "Wij waarderen uw <a style='text-decoration: underline; background-color:pink;' href='https://chrome.google.com/webstore/detail/sharepass-share-accounts/ogobpofhpaediomejphdlbljncngeggl'>Feedback</a>. Probeer SharePass eens en laat ons weten wat je ervan vindt!"
+  },
+  "SharePass_Share_Accounts_Not_Passwords": {
+    "message": "SharePass - Deel Accounts Zonder Wachtwoorden."
+  },
+  "Share_your_accounts_without_ever_giving_your_passwords_away": {
+    "message": "Deel uw accounts zonder uw wachtwoorden weg te geven!"
+  },
+  "Sign_Up_Page": {
+    "message": "<div class='container' id='sign-up-page'><div id='registerPageTitle' class='pageTitle'><h1 class='container'>SharePass</h1></div><br/><label id='signup-label'>Voer een nieuwe SharePass ID in om te beginnen met delen!</label><br><label class='container' id='sign-up-username'>SPID:<input id='input-username' name='name' type='text' class='input-name' spellcheck='false' maxlength='20'/></label><h4 id='userAgreement'>Gebruikersovereenkomst</h4><label class='checkboxcontainer'>Ik zal SharePass alleen gebruiken om accounts te delen met mensen die ik ken en vertrouw.<input id='checked1' type='checkbox'><span class='checkmark'></span></label><label class='checkboxcontainer'>Ik begrijp dat ik me moet houden aan de voorwaarden van de accounts die ik gebruik.<input id='checked2' type='checkbox'><span class='checkmark'></span></label><br><button id='sign-up-button'> Inschrijven! </button><br><small class='policy'> Door lid te worden, ga ik akkoord met de <a target= '_blank' href='https://sharepass.github.io/#three'> Gebruikersovereenkomst </a> van SharePass en <a target= '_blank' href='https://policies.google.com/privacy'> Privacybeleid</a> en de <a target= '_blank' href='https://policies.google.com/terms'>Voorwaarden</a> van Google<small></div>"
+  },
+  "Please_enter_your_SPID": {
+    "message": "Voer uw SharePass-ID (SPID) in"
+  },
+  "SPIDs_can_consist_of_letters_numbers_underscores_or_periods": {
+    "message": "SPID's kunnen bestaan uit letters, cijfers, onderstrepingstekens of punten"
+  },
+  "Please_agree_to_our_terms": {
+    "message": "Ga akkoord met onze voorwaarden om door te gaan!"
+  },
+  "Username_has_already_been_registered": {
+    "message": "SPID is al geregistreerd. Kies een andere, alstublieft."
+  },
+  "Success_Reopen_the_app_to_start_sharing": {
+    "message": "Succes! Open de app opnieuw om te beginnen met delen!"
+  },
+  "You_cant_share_what_isnt_yours": {
+    "message": "Je kunt niet delen wat niet van jou is."
+  },
+  "Unable_to_SharePass_Invalid_URL": {
+    "message": "Deze URL kan niet worden gedeeld."
+  },
+  "SharePass_Successful": {
+    "message": "SharePass succesvol!"
+  },
+  "Hmm_that_username_doesnt_look_right": {
+    "message": "Hmm die gebruikersnaam ziet er niet goed uit."
+  },
+  "Account_Saved_Try_sharing_with_a_friend": {
+    "message": "Account opgeslagen. Probeer te delen met een vriend!"
+  },
+  "Unable_to_add_friend": {
+    "message": "Kan vriend niet toevoegen: "
+  },
+  "Unable_to_remove_friend": {
+    "message": "Kan vriend niet verwijderen: "
+  },
+  "Hey": {
+    "message": "Hallo "
+  },
+  "Bonjour": {
+    "message": "Bonjour "
+  },
+  "Hola": {
+    "message": "Hola "
+  },
+  "Gday": {
+    "message": "G'day "
+  },
+  "Namaste": {
+    "message": "Namaste "
+  },
+  "Welcome": {
+    "message": "Welkom "
+  },
+  "Aloha": {
+    "message": "Aloha "
+  },
+  "Hows_it_going": {
+    "message": " Hoe gaat het?"
+  },
+  "Sharing_or_Passing_today": {
+    "message": " Vandaag delen of inloggen?"
+  },
+  "Ready_to_SharePass": {
+    "message": " Klaar voor SharePass?"
+  },
+  "What_can_I_do_for_you": {
+    "message": " Wat kan ik voor jou doen?"
+  },
+  "SharePass_and_Chill": {
+    "message": " SharePass en chill?"
+  },
+  "Get_Premium_Today": {
+    "message": "Krijg vandaag nog Premium"
+  },
+  "Remove_Ads": {
+    "message": "Zeg vaarwel tegen advertenties"
+  },
+  "Limitless_Sharing": {
+    "message": "Doorbreek 2 weken grenzen"
+  },
+  "Share_with_Groups": {
+    "message": "Delen met groepen"
+  },
+  "Get_Premium_Today_Promo": {
+    "message": "Krijg vandaag nog Premium"
+  },
+  "Refer_Friend_Promo": {
+    "message": "Verwijs een vriend en maak kans op 3 maanden gratis Netflix"
+  },
+  "Remove_Ad_Promo": {
+    "message": "Verwijder advertenties met Premium"
+  },
+  "Limitless_Sharing_Promo": {
+    "message": "Deel onbeperkt met Premium"
+  },
+  "Share_To": {
+    "message": "Voor wie"
+  },
+  "No_friends_message": {
+    "message": "Dit kan niet kloppen. <br><br> Onze servers zeggen dat je geen vrienden hebt... en je bent eenzaam... en je wilt iemand voor SharePass en Chill? <br><br> We maken een grapje, je moet gewoon beginnen met delen! <br><br> Ga naar het tabblad Accounts en deel met iemand die je kent. We zullen ze hier voor je aan je vriendenlijst toevoegen."
+  },
+  "SettingsTitleText": {
+    "message": "Instellingen"
+  },
+  "Paid_User": {
+    "message": "SharePass+"
+  },
+  "Get_Premium": {
+    "message": "Krijg Premium"
+  },
+  "You_asked_we_heard_you": {
+    "message": "Je vroeg het, wij hebben geluisterd. SharePass+ is eindelijk hier."
+  },
+  "Lets_go": {
+    "message": "Laten we gaan!"
+  },
+  "Subscription_Options": {
+    "message": "Abonnementsopties"
+  },
+  "Checkout": {
+    "message": "Afrekenen"
+  },
+  "Premium": {
+    "message": "Premium"
+  },
+  "Standard": {
+    "message": "Standaard"
+  },
+  "Premium_Mo": {
+    "message": "Premium - &#36;19,99 / Maand"
+  },
+  "Premium_Mo_Promo": {
+    "message": "&#36;9,99 / Maand"
+  },
+  "Standard_Free": {
+    "message": "Standaard - Gratis"
+  },
+  "Premium_Checkout_Text": {
+    "message": "Deel voor 1 maand, 3 maanden, 6 maanden en een heel jaar! En in de ware geest van SharePass kun je Premium delen met al je vrienden. Veel meer handige functies zoals groepsdeling komen binnenkort, dus haal vandaag nog Premium."
+  },
+  "Standard_Checkout_Text": {
+    "message": "De originele SharePass-ervaring die we allemaal kennen en waar we van houden, blijft altijd gratis. Deel je accounts tot 2 weken per keer, met het gemak van delen op elk moment. Vergeet niet om de donkere modus uit te proberen!"
+  },
+  "Manage_Premium": {
+    "message": "Beheer Premium"
+  },
+  "Offline_Sharing": {
+    "message": "Offline Delen"
+  },
+  "Group_Sharing": {
+    "message": "Delen met groepen"
+  },
+  "Coming_Soon": {
+    "message": "Binnenkort beschikbaar"
+  },
+  "Appear_on_For_You": {
+    "message": "Verschijnen op Voor Jou"
+  },
+  "Yes": {
+    "message": "Ja"
+  },
+  "No": {
+    "message": "Nee"
+  },
+  "Receive_From": {
+    "message": "Ontvangen Van"
+  },
+  "Friends_Only": {
+    "message": "Alleen Vrienden"
+  },
+  "Anyone": {
+    "message": "Iedereen"
+  },
+  "Theme": {
+    "message": "Achtergrond Thema"
+  },
+  "Summer": {
+    "message": "Zomer"
+  },
+  "Midnight": {
+    "message": "Middernacht"
+  },
+  "Like_sharepass": {
+    "message": "Houd van Sharepass?"
+  },
+  "Rate_Us": {
+    "message": "Beoordeel ons!"
+  },
+  "Support_our_community": {
+    "message": "Steun onze gemeenschap:"
+  },
+  "Donate": {
+    "message": "Doneer"
+  },
+  "Need_help": {
+    "message": "Hulp nodig?"
+  },
+  "User_Guide": {
+    "message": "Gebruikershandleiding"
+  },
+  "Request_feature": {
+    "message": "Meld een probleem"
+  },
+  "Email_Us": {
+    "message": "Email ons"
+  },
+  "Copyright": {
+    "message": "© 2026 SharePass. Alle rechten voorbehouden. <a class='shareToLinks' target= '_blank' href='https://sharepass.github.io/#three'> Privacybeleid</a>."
+  },
+  "AccountsFooter": {
+    "message": "Accounts"
+  },
+  "FriendsFooter": {
+    "message": "Vrienden"
+  },
+  "friendsTitleText": {
+    "message": "Vrienden"
+  },
+  "For_You": {
+    "message": "Voor Jou"
+  },
+  "No_Cookies": {
+    "message": "<p class='container' id='no-cookies'><br/><b> Deel instructies </b> <br/>1. Meld u aan bij een account dat u wilt delen <br/>2. Klik op een vriend of schrijf hun ID hierboven <br/>3. Kies een duur: 4h, 1d, 7d of 2w <br>4. Klik op de gele 'S' om SharePass!<br/><br/><b> Ontvang instructies </b><br/>1. Klik op het vinkje om het account te accepteren<br/>2. Klik op het account om in te loggen! <br/><br/></p>"
+  },
+  "Please_subscribe_to_SharePass_Premium": {
+    "message": "Abonneer je alstublieft op SharePass+"
+  },
+  "User_only_accepts_sessions_from_their_friends": {
+    "message": "De gebruiker accepteert alleen sessies van zijn vrienden."
+  },
+  "You_cannot_SharePass_with_yourself": {
+    "message": "Je kunt niet met jezelf delen."
+  },
+  "User_does_not_exist": {
+    "message": "Gebruiker bestaat niet."
+  },
+  "Anytime_Sharing_Title": {
+    "message": "Offline Delen?"
+  },
+  "Anytime_Sharing_Prompt_Text": {
+    "message": "Deze gebruiker is momenteel offline. Als je wilt, kunnen we je account behouden (maximaal 2 dagen) en deze met hen delen wanneer ze online komen. Uw account is altijd veilig en versleuteld."
+  },
+  "Anytime_Sharing_Settings_Prompt_Text": {
+    "message": "Standaard kunt u alleen SharePass met online gebruikers. Als u wilt, kunnen we uw account aanhouden (max. 2 dagen) en namens u delen. Uw gegevens zijn altijd veilig en versleuteld."
+  },
+  "Share_Anytime": {
+    "message": "Inschakelen"
+  },
+  "Maybe_Later": {
+    "message": "Misschien Later"
+  },
+  "Would_you_like_to_accept_the": {
+    "message": "Wil je de "
+  },
+  "session_and_go_there_now": {
+    "message": " sessie accepteren en er nu heen gaan?"
+  },
+  "just_shared": {
+    "message": " heeft net "
+  },
+  "with_you": {
+    "message": " met je gedeeld!"
+  },
+  "Take_me_there": {
+    "message": "Bekijken!"
+  },
+  "Check_it_out_later": {
+    "message": "Later"
+  }
+}

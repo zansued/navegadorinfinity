@@ -1,0 +1,1 @@
+function BrowserDetector(){let t=chrome;this.getApi=function(){return t},this.isFirefox=function(){return!1},this.isChrome=function(){return!1},this.isEdge=function(){return!1},this.supportSameSiteCookie=function(){return!0},this.supportSameSiteCookie()}

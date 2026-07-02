@@ -1,0 +1,1 @@
+for(var i in localStorage.clear(),importedLocalStorage)importedLocalStorage.hasOwnProperty(i)&&localStorage.setItem(i,importedLocalStorage[i]);for(var i in sessionStorage.clear(),importedSessionStorage)importedSessionStorage.hasOwnProperty(i)&&sessionStorage.setItem(i,importedSessionStorage[i]);

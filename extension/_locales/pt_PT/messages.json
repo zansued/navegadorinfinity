@@ -1,0 +1,326 @@
+{
+  "SideBar_Welcome_To_SharePass": {
+    "message": "Bem-vindo ao SharePass"
+  },
+  "SideBar_Getting_Started": {
+    "message": "Iniciando"
+  },
+  "welcomeReady_to_SharePass": {
+    "message": "Pronto para o SharePass?"
+  },
+  "Get_Started_TagLine": {
+    "message": "Inscreva-se em segundos."
+  },
+  "Get_Started_Button": {
+    "message": "Começar"
+  },
+  "welcomeGetStartedHeader": {
+    "message": "Iniciando"
+  },
+  "welcomeGetStartedText": {
+    "message": "Siga as etapas abaixo para concluir a instalação."
+  },
+  "Pin_SharePass_Title": {
+    "message": "1. Fixe à extensão"
+  },
+  "Pin_SharePass_Text": {
+    "message": "Clique no ícone 'Quebra-cabeça' como visto no vídeo à direita e <span style='background-color:yellow;'>Fixe 📌</span> à Extensão SharePass para que você nunca perca nenhuma notificação!"
+  },
+  "Sign_Up_Title": {
+    "message": "2. Inscrever-se"
+  },
+  "Sign_Up_Text": {
+    "message": " Clique no ícone '<span style='background-color:#ffdd00; font-weight: bold;'>S</span>' para iniciar a extensão SharePass e escolha um nome de usuário para se inscrever em segundos."
+  },
+  "Share_First_Account_Title": {
+    "message": "3. Compartilhe sua primeira conta!"
+  },
+  "Share_First_Account_Text": {
+    "message": "Siga o <a style='text-decoration: underline; background-color:lightgreen' href='https://sharepass.github.io#two'>Guia do Usuário</a> para compartilhar sua primeira conta com um amigo!"
+  },
+  "Welcome_Rate_Us_Title": {
+    "message": "4. Avalie-nos"
+  },
+  "Welcome_Rate_Us_Text": {
+    "message": "Valorizamos sua <a style='text-decoration: underline; background-color:pink;' href='https://chrome.google.com/webstore/detail/sharepass-share-accounts/ogobpofhpaediomejphdlbljncngeggl'>Opinião</a> Experimente o SharePass e deixe-nos saber o que você pensa!"
+  },
+  "SharePass_Share_Accounts_Not_Passwords": {
+    "message": "SharePass - Compartilhe Contas sem Senhas."
+  },
+  "Share_your_accounts_without_ever_giving_your_passwords_away": {
+    "message": "Compartilhe suas contas sem revelar suas senhas!"
+  },
+  "Sign_Up_Page": {
+    "message": "<div class='container' id='sign-up-page'><div id='registerPageTitle' class='pageTitle'><h1 class='container'>SharePass</h1></div><br/><label id='signup-label'>Digite um novo ID do SharePass (SPID) para começar a compartilhar!</label><br><label class='container' id='sign-up-username'>SPID:<input id='input-username' name='name' type='text' class='input-name' spellcheck='false' maxlength='20'/></label><h4 id='userAgreement'>Termo de Acordo do Usuário</h4><label class='checkboxcontainer'>Vou usar o SharePass apenas para compartilhar contas com pessoas que conheço e confio.<input id='checked1' type='checkbox'><span class='checkmark'></span></label><label class='checkboxcontainer'>Entendo que devo continuar a cumprir os termos e condições das contas que uso.<input id='checked2' type='checkbox'><span class='checkmark'></span></label><br><button id='sign-up-button'> Inscrever-se! </button><br><small class='policy'>Você concordo com o <a target= '_blank' href='https://sharepass.github.io/#three'> Contrato do Usuário </a> do SharePass e com a <a target= '_blank' href='https://policies.google.com/privacy'> Política de Privacidade</a> e os <a target= '_blank' href='https://policies.google.com/terms'> Termos</a> do Google<small></div>"
+  },
+  "Please_enter_your_SPID": {
+    "message": "Digite seu SPID"
+  },
+  "SPIDs_can_consist_of_letters_numbers_underscores_or_periods": {
+    "message": "Os SPIDs podem consistir em letras, números, sublinhados ou pontos."
+  },
+  "Please_agree_to_our_terms": {
+    "message": "Concorde com os nossos termos!"
+  },
+  "Username_has_already_been_registered": {
+    "message": "O SPID já foi registrado. Por favor escolha outro."
+  },
+  "Success_Reopen_the_app_to_start_sharing": {
+    "message": "Sucesso! Reabra o aplicativo para começar a compartilhar!"
+  },
+  "You_cant_share_what_isnt_yours": {
+    "message": "Você não pode compartilhar o que não é seu."
+  },
+  "Unable_to_SharePass_Invalid_URL": {
+    "message": "Este URL não pode ser compartilhado."
+  },
+  "SharePass_Successful": {
+    "message": "SharePass bem sucedido!"
+  },
+  "Hmm_that_username_doesnt_look_right": {
+    "message": "Esse nome de usuário não parece certo."
+  },
+  "Account_Saved_Try_sharing_with_a_friend": {
+    "message": "Conta salva. Tente compartilhar com um amigo!"
+  },
+  "Unable_to_add_friend": {
+    "message": "Incapaz de adicionar amigo: "
+  },
+  "Unable_to_remove_friend": {
+    "message": "Não foi possível remover o amigo: "
+  },
+  "Hey": {
+    "message": "Ei "
+  },
+  "Bonjour": {
+    "message": "Olá "
+  },
+  "Hola": {
+    "message": "Konnichiwa "
+  },
+  "Gday": {
+    "message": "G'day "
+  },
+  "Namaste": {
+    "message": "Namaste "
+  },
+  "Welcome": {
+    "message": "Bem-vinda "
+  },
+  "Aloha": {
+    "message": "Aloha "
+  },
+  "Hows_it_going": {
+    "message": " Como tá indo?"
+  },
+  "Sharing_or_Passing_today": {
+    "message": " Compartilhando ou fazendo login hoje?"
+  },
+  "Ready_to_SharePass": {
+    "message": " Pronto para SharePass?"
+  },
+  "What_can_I_do_for_you": {
+    "message": " O que posso fazer para você?"
+  },
+  "SharePass_and_Chill": {
+    "message": " SharePass e Chill?"
+  },
+  "Get_Premium_Today": {
+    "message": "Adira ao Premium hoje"
+  },
+  "Remove_Ads": {
+    "message": "Diga adeus aos anúncios"
+  },
+  "Limitless_Sharing": {
+    "message": "Quebre os limites de 2 semanas"
+  },
+  "Share_with_Groups": {
+    "message": "Partilhar com grupos"
+  },
+  "Get_Premium_Today_Promo": {
+    "message": "Obtenha já o Premium"
+  },
+  "Refer_Friend_Promo": {
+    "message": "Refere um amigo e habilita-te a ganhar 3 meses de Netflix grátis"
+  },
+  "Remove_Ad_Promo": {
+    "message": "Remova os anúncios com o Premium"
+  },
+  "Limitless_Sharing_Promo": {
+    "message": "Partilhe sem limites com o Premium"
+  },
+  "Share_To": {
+    "message": "Receptor"
+  },
+  "No_friends_message": {
+    "message": "Parece que você ainda não tem amigos. <br><br> Para adicionar um amigo, você precisa começar a compartilhar! <br><br> Vá para a guia Contas e compartilhe uma conta com alguém que você conhece. Vamos adicioná-los à sua lista de amigos aqui para você."
+  },
+  "SettingsTitleText": {
+    "message": "Configurações"
+  },
+  "Paid_User": {
+    "message": "SharePass+"
+  },
+  "Get_Premium": {
+    "message": "Obtenha Premium"
+  },
+  "You_asked_we_heard_you": {
+    "message": "Você pediu, nós ouvimos. O SharePass+ finalmente chegou."
+  },
+  "Lets_go": {
+    "message": "Vamos lá!"
+  },
+  "Subscription_Options": {
+    "message": "Opções de Subscrição"
+  },
+  "Checkout": {
+    "message": "Finalizar Compra"
+  },
+  "Premium": {
+    "message": "Premium"
+  },
+  "Standard": {
+    "message": "Standard"
+  },
+  "Premium_Mo": {
+    "message": "Premium - &#36;19,99 / Mês"
+  },
+  "Premium_Mo_Promo": {
+    "message": "&#36;9,99 / Mês"
+  },
+  "Standard_Free": {
+    "message": "Standard - Grátis"
+  },
+  "Premium_Checkout_Text": {
+    "message": "Partilhe por 1 mês, 3 meses, 6 meses e 1 ano inteiro! E no verdadeiro espírito do SharePass, pode partilhar o Premium com todos os seus amigos. Muitas mais funcionalidades úteis, como partilha em grupo, estarão disponíveis em breve, por isso, obtenha o Premium hoje."
+  },
+  "Standard_Checkout_Text": {
+    "message": "A experiência original do SharePass que todos conhecemos e amamos será sempre gratuita. Partilhe as suas contas por até 2 semanas de cada vez, com a conveniência de partilhar a qualquer momento. Não se esqueça de experimentar o modo escuro!"
+  },
+  "Manage_Premium": {
+    "message": "Gerir Premium"
+  },
+  "Offline_Sharing": {
+    "message": "Compartilhe Offline"
+  },
+  "Group_Sharing": {
+    "message": "Partilhar com grupos"
+  },
+  "Coming_Soon": {
+    "message": "Brevemente"
+  },
+  "Appear_on_For_You": {
+    "message": "Aparecer em Para Você"
+  },
+  "Yes": {
+    "message": "Sim"
+  },
+  "No": {
+    "message": "Não"
+  },
+  "Receive_From": {
+    "message": "Receber De"
+  },
+  "Friends_Only": {
+    "message": "Só amigos"
+  },
+  "Anyone": {
+    "message": "Qualquer Um"
+  },
+  "Theme": {
+    "message": "Tema"
+  },
+  "Summer": {
+    "message": "Verão"
+  },
+  "Midnight": {
+    "message": "Meia-noite"
+  },
+  "Like_sharepass": {
+    "message": "Amor Sharepass?"
+  },
+  "Rate_Us": {
+    "message": "Nos Avalie!"
+  },
+  "Support_our_community": {
+    "message": "Apoie nossa Comunidade:"
+  },
+  "Donate": {
+    "message": "Doar"
+  },
+  "Need_help": {
+    "message": "Preciso de Ajuda?"
+  },
+  "User_Guide": {
+    "message": "Guia de Usuario"
+  },
+  "Request_feature": {
+    "message": "Reportar um Problema"
+  },
+  "Email_Us": {
+    "message": "Envia-nos um Email"
+  },
+  "Copyright": {
+    "message": "© 2026 SharePass. Direitos reservados. <a class='shareToLinks' target= '_blank' href='https://sharepass.github.io/#three'> Política de Privacidade</a>."
+  },
+  "AccountsFooter": {
+    "message": "Contas"
+  },
+  "FriendsFooter": {
+    "message": "Amigos"
+  },
+  "friendsTitleText": {
+    "message": "Amigos"
+  },
+  "For_You": {
+    "message": "Para Voce"
+  },
+  "No_Cookies": {
+    "message": "<p class='container' id='no-cookies'><br/><b> Instruções para Compartilhar </b> <br/>1. Faça login na conta que deseja compartilhar <br/>2. Clique ou insira o ID do amigo acima <br/>3. Escolha uma duração: 4h, 1d, 7d ou 2w <br>4. Clique no 'S' amarelo para compartilhar!<br/><br/><b> Instruções para Receber </b><br/>1. Clique na marca de seleção para aceitar a conta<br/>2. Clique na conta para entrar! <br/><br/></p>"
+  },
+  "Please_subscribe_to_SharePass_Premium": {
+    "message": "Por favor, subscreva o SharePass+"
+  },
+  "User_only_accepts_sessions_from_their_friends": {
+    "message": "O usuário só aceita sessões de seus amigos."
+  },
+  "You_cannot_SharePass_with_yourself": {
+    "message": "Você não pode compartilhar consigo mesmo."
+  },
+  "User_does_not_exist": {
+    "message": "Usuário não existe."
+  },
+  "Anytime_Sharing_Title": {
+    "message": "Compartilhe Offline?"
+  },
+  "Anytime_Sharing_Prompt_Text": {
+    "message": "Este usuário está offline no momento. Se desejar, podemos manter sua conta (por até 2 dias) e compartilhá-la com eles, se estiverem online. Sua conta está sempre criptografada."
+  },
+  "Anytime_Sharing_Settings_Prompt_Text": {
+    "message": "Por padrão, você só pode usar o SharePass com usuários online. Agora podemos armazenar sua conta (por 2 dias) e compartilhá-la em seu nome. Seus dados são sempre criptografados."
+  },
+  "Share_Anytime": {
+    "message": "Habilitar"
+  },
+  "Maybe_Later": {
+    "message": "Mais tarde"
+  },
+  "Would_you_like_to_accept_the": {
+    "message": "Você gostaria de aceitar a sessão das  "
+  },
+  "session_and_go_there_now": {
+    "message": " e ir agora?"
+  },
+  "just_shared": {
+    "message": " acabou de compartilhar a "
+  },
+  "with_you": {
+    "message": " com você!"
+  },
+  "Take_me_there": {
+    "message": "Confira!"
+  },
+  "Check_it_out_later": {
+    "message": "Mais tarde"
+  }
+}

@@ -1,0 +1,37 @@
+# Executáveis e arquivos build/dist
+*.exe
+*.old
+build/
+dist/
+*.spec
+
+# Chaves e certificados sensíveis
+*.key
+*.pem
+*.cer
+
+# Arquivos de log e depuração
+*.log
+debug_paths.txt
+
+# Pastas de dados e perfis
+profiles/
+chrome-bin/
+chrome-bin-v129/
+
+# Caches do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Arquivos compactados e backups
+*.zip
+*.tar.gz
+*.rar
+
+# Configurações locais / IDEs
+.vscode/
+.idea/

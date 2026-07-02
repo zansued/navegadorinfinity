@@ -1,0 +1,326 @@
+{
+  "SideBar_Welcome_To_SharePass": {
+    "message": "ยินดีต้อนรับสู่ SharePass"
+  },
+  "SideBar_Getting_Started": {
+    "message": "เริ่มต้นใช้งาน"
+  },
+  "welcomeReady_to_SharePass": {
+    "message": "พร้อมที่จะ SharePass แล้วหรือยัง"
+  },
+  "Get_Started_TagLine": {
+    "message": "ลงทะเบียนในไม่กี่วินาที"
+  },
+  "Get_Started_Button": {
+    "message": "เริ่มต้นใช้งาน"
+  },
+  "welcomeGetStartedHeader": {
+    "message": "เริ่มต้นใช้งาน"
+  },
+  "welcomeGetStartedText": {
+    "message": "ทำตามขั้นตอนด้านล่างเพื่อทำการตั้งค่าให้เสร็จสมบูรณ์"
+  },
+  "Pin_SharePass_Title": {
+    "message": "1. ตรึง SharePass ส่วนขยาย"
+  },
+  "Pin_SharePass_Text": {
+    "message": "คลิกที่ไอคอน 'ปริศนา' ตามที่เห็นในวิดีโอด้านขวาและ <span style='background-color:yellow;'>ตรึง 📌</span> ส่วนขยาย SharePass เพื่อให้คุณไม่พลาดการแจ้งเตือนใด ๆ"
+  },
+  "Sign_Up_Title": {
+    "message": "2. ลงทะเบียนด้วยชื่อผู้ใช้"
+  },
+  "Sign_Up_Text": {
+    "message": "คลิกที่ไอคอน '<span style='background-color:#ffdd00; font-weight: bold;'>S</span>' เพื่อเปิดส่วนขยาย SharePass และเลือกชื่อผู้ใช้เพื่อลงชื่อสมัครใช้ในไม่กี่วินาที"
+  },
+  "Share_First_Account_Title": {
+    "message": "3. แบ่งปันบัญชีแรกของคุณ!"
+  },
+  "Share_First_Account_Text": {
+    "message": "ทำตาม <a style='text-decoration: underline; background-color:lightgreen' href='https://sharepass.github.io#two'>คู่มือผู้ใช้</a> เพื่อแบ่งปันบัญชีแรกของคุณกับเพื่อน ๆ"
+  },
+  "Welcome_Rate_Us_Title": {
+    "message": "4. ให้คะแนนเรา"
+  },
+  "Welcome_Rate_Us_Text": {
+    "message": "เราให้ความสำคัญกับคุณ <a style='text-decoration: underline; background-color:pink;' href='https://chrome.google.com/webstore/detail/sharepass-share-accounts/ogobpofhpaediomejphdlbljncngeggl'>ความคิดเห็น</a> ลอง SharePass และแจ้งให้เราทราบว่าคุณคิดอย่างไร"
+  },
+  "SharePass_Share_Accounts_Not_Passwords": {
+    "message": "SharePass - แชร์บัญชีโดยไม่ต้องใช้รหัสผ่าน"
+  },
+  "Share_your_accounts_without_ever_giving_your_passwords_away": {
+    "message": "แชร์บัญชีของคุณโดยไม่ต้องให้รหัสผ่าน!"
+  },
+  "Sign_Up_Page": {
+    "message": "<div class='container' id='sign-up-page'><div id='registerPageTitle' class='pageTitle'><h1 class='container'>SharePass</h1></div><br/><label id='signup-label'>ป้อน SharePass ID (SPID) ใหม่เพื่อเริ่มการแบ่งปัน!</label><br><label class='container' id='sign-up-username'>SPID:<input id='input-username' name='name' type='text' class='input-name' spellcheck='false' maxlength='20'/></label><h4 id='userAgreement'>ข้อตกลงการใช้</h4><label class='checkboxcontainer'>ฉันจะใช้บริการ SharePass เพื่อแชร์บัญชีกับคนที่ฉันรู้จักและเชื่อถือเท่านั้น<input id='checked1' type='checkbox'><span class='checkmark'></span></label><label class='checkboxcontainer'>ฉันเข้าใจว่าฉันต้องปฏิบัติตามข้อกำหนดและเงื่อนไขของบัญชีที่ฉันใช้<input id='checked2' type='checkbox'><span class='checkmark'></span></label><br><button id='sign-up-button'> ลงชื่อ! </button><br><small class='policy'> เมื่อเข้าร่วมฉันยอมรับ <a target= '_blank' href='https://sharepass.github.io/#three'> ข้อตกลงผู้ใช้ </a> SharePass และ <a target= '_blank' href='https://policies.google.com/privacy'> นโยบายความเป็นส่วนตัว</a> และ <a target= '_blank' href='https://policies.google.com/terms'> เงื่อนไข</a> ของ Google<small></div>"
+  },
+  "Please_enter_your_SPID": {
+    "message": "โปรดป้อน SPID ของคุณ"
+  },
+  "SPIDs_can_consist_of_letters_numbers_underscores_or_periods": {
+    "message": "SPID อาจประกอบด้วยตัวอักษรตัวเลขขีดล่างหรือจุด"
+  },
+  "Please_agree_to_our_terms": {
+    "message": "โปรดยอมรับข้อกำหนดของเรา!"
+  },
+  "Username_has_already_been_registered": {
+    "message": "SPID นี้ถูกใช้ไปแล้ว โปรดเลือกอันอื่น"
+  },
+  "Success_Reopen_the_app_to_start_sharing": {
+    "message": "ที่ประสบความสำเร็จ! เปิดแอปอีกครั้งเพื่อเริ่มการแบ่งปัน!"
+  },
+  "You_cant_share_what_isnt_yours": {
+    "message": "คุณไม่สามารถแบ่งปันสิ่งที่ไม่ใช่ของคุณ"
+  },
+  "Unable_to_SharePass_Invalid_URL": {
+    "message": "URL นี้ไม่สามารถแชร์ได้"
+  },
+  "SharePass_Successful": {
+    "message": "SharePass สำเร็จ!"
+  },
+  "Hmm_that_username_doesnt_look_right": {
+    "message": "ชื่อผู้ใช้นั้นดูไม่ถูกต้อง"
+  },
+  "Account_Saved_Try_sharing_with_a_friend": {
+    "message": "บันทึกบัญชีแล้ว - ลองแชร์กับเพื่อน ๆ !"
+  },
+  "Unable_to_add_friend": {
+    "message": "ไม่สามารถเพิ่มเพื่อน: "
+  },
+  "Unable_to_remove_friend": {
+    "message": "ไม่สามารถลบเพื่อนได้: "
+  },
+  "Hey": {
+    "message": "เฮ้ "
+  },
+  "Bonjour": {
+    "message": "สวัสดี "
+  },
+  "Hola": {
+    "message": "ยินดีต้อนรับ "
+  },
+  "Gday": {
+    "message": "เฮ้ "
+  },
+  "Namaste": {
+    "message": "สวัสดี "
+  },
+  "Welcome": {
+    "message": "ยินดีต้อนรับ "
+  },
+  "Aloha": {
+    "message": "สวัสดี "
+  },
+  "Hows_it_going": {
+    "message": " คุณเป็นอย่างไร?"
+  },
+  "Sharing_or_Passing_today": {
+    "message": " แชร์หรือเข้าสู่ระบบวันนี้?"
+  },
+  "Ready_to_SharePass": {
+    "message": " พร้อมใช้ SharePass หรือยัง?"
+  },
+  "What_can_I_do_for_you": {
+    "message": " ฉันจะช่วยได้อย่างไร?"
+  },
+  "SharePass_and_Chill": {
+    "message": " แชร์และชิลล์?"
+  },
+  "Get_Premium_Today": {
+    "message": "รับพรีเมียมวันนี้"
+  },
+  "Remove_Ads": {
+    "message": "ลาก่อนโฆษณา"
+  },
+  "Limitless_Sharing": {
+    "message": "ทำลายขีดจำกัด 2 สัปดาห์"
+  },
+  "Share_with_Groups": {
+    "message": "แชร์กับกลุ่ม"
+  },
+  "Get_Premium_Today_Promo": {
+    "message": "รับพรีเมียมวันนี้"
+  },
+  "Refer_Friend_Promo": {
+    "message": "ชวนเพื่อนแล้วลุ้นรับสิทธิ์ดู Netflix ฟรี 3 เดือน"
+  },
+  "Remove_Ad_Promo": {
+    "message": "ลบโฆษณาด้วย Premium"
+  },
+  "Limitless_Sharing_Promo": {
+    "message": "แชร์ได้ไม่จำกัดด้วย Premium"
+  },
+  "Share_To": {
+    "message": "แชร์ไปที่"
+  },
+  "No_friends_message": {
+    "message": "ดูเหมือนว่าคุณยังไม่มีเพื่อน <br><br> ในการเพิ่มเพื่อนคุณจะต้องเริ่มแชร์! <br><br> ไปที่แท็บบัญชีและแชร์บัญชีกับคนที่คุณรู้จัก เราจะเพิ่มพวกเขาไปยังรายชื่อเพื่อนของคุณที่นี่สำหรับคุณ"
+  },
+  "SettingsTitleText": {
+    "message": "ตัวเลือก"
+  },
+  "Paid_User": {
+    "message": "SharePass+"
+  },
+  "Get_Premium": {
+    "message": "รับพรีเมียม"
+  },
+  "You_asked_we_heard_you": {
+    "message": "คุณถาม เราได้ยินคุณแล้ว SharePass+ มาถึงแล้ว"
+  },
+  "Lets_go": {
+    "message": "ไปกันเถอะ!"
+  },
+  "Subscription_Options": {
+    "message": "ตัวเลือกการสมัครสมาชิก"
+  },
+  "Checkout": {
+    "message": "ชำระเงิน"
+  },
+  "Premium": {
+    "message": "พรีเมียม"
+  },
+  "Standard": {
+    "message": "มาตรฐาน"
+  },
+  "Premium_Mo": {
+    "message": "พรีเมียม - &#36;19.99 / เดือน"
+  },
+  "Premium_Mo_Promo": {
+    "message": "&#36;9.99 / เดือน"
+  },
+  "Standard_Free": {
+    "message": "มาตรฐาน - ฟรี"
+  },
+  "Premium_Checkout_Text": {
+    "message": "แชร์เป็นเวลา 1 เดือน 3 เดือน 6 เดือน และตลอดทั้งปี! และในจิตวิญญาณที่แท้จริงของ SharePass คุณสามารถแชร์พรีเมียมกับเพื่อน ๆ ของคุณได้ทั้งหมด ฟีเจอร์ที่มีประโยชน์อื่นๆ เช่น การแชร์แบบกลุ่ม กำลังจะมาเร็วๆ นี้ ดังนั้นรับพรีเมียมวันนี้เลย"
+  },
+  "Standard_Checkout_Text": {
+    "message": "ประสบการณ์ SharePass ดั้งเดิมที่เราทุกคนรู้จักและชื่นชอบจะยังคงฟรีเสมอ แชร์บัญชีของคุณได้นานถึง 2 สัปดาห์ต่อครั้ง พร้อมความสะดวกในการแชร์ได้ตลอดเวลา อย่าลืมลองใช้โหมดมืดด้วย!"
+  },
+  "Manage_Premium": {
+    "message": "จัดการพรีเมียม"
+  },
+  "Offline_Sharing": {
+    "message": "การแบ่งปันทุกเวลา"
+  },
+  "Group_Sharing": {
+    "message": "แชร์กับกลุ่ม"
+  },
+  "Coming_Soon": {
+    "message": "เร็วๆ นี้"
+  },
+  "Appear_on_For_You": {
+    "message": "ปรากฏใน 'สำหรับคุณ'"
+  },
+  "Yes": {
+    "message": "ใช่"
+  },
+  "No": {
+    "message": "ไม่"
+  },
+  "Receive_From": {
+    "message": "ได้รับจาก"
+  },
+  "Friends_Only": {
+    "message": "เพื่อน ๆ เท่านั้น"
+  },
+  "Anyone": {
+    "message": "ทุกคน"
+  },
+  "Theme": {
+    "message": "สีพื้นหลัง"
+  },
+  "Summer": {
+    "message": "ดวงอาทิตย์"
+  },
+  "Midnight": {
+    "message": "เที่ยงคืน"
+  },
+  "Like_sharepass": {
+    "message": "คุณชอบ Sharepass ไหม?"
+  },
+  "Rate_Us": {
+    "message": "ให้คะแนนเรา!"
+  },
+  "Support_our_community": {
+    "message": "สนับสนุนเรา:"
+  },
+  "Donate": {
+    "message": "บริจาค"
+  },
+  "Need_help": {
+    "message": "ต้องการความช่วยเหลือ?"
+  },
+  "User_Guide": {
+    "message": "คู่มือผู้ใช้"
+  },
+  "Request_feature": {
+    "message": "รายงานปัญหา:"
+  },
+  "Email_Us": {
+    "message": "ส่งอีเมลถึงเรา"
+  },
+  "Copyright": {
+    "message": "ลิขสิทธิ์ © 2026 SharePass. สงวนลิขสิทธิ์ <a class='shareToLinks' target= '_blank' href='https://sharepass.github.io/#three'> นโยบายความเป็นส่วนตัว</a>"
+  },
+  "AccountsFooter": {
+    "message": "บัญชีผู้ใช้"
+  },
+  "FriendsFooter": {
+    "message": "เพื่อน"
+  },
+  "friendsTitleText": {
+    "message": "เพื่อน"
+  },
+  "For_You": {
+    "message": "สำหรับคุณ"
+  },
+  "No_Cookies": {
+    "message": "<p class='container' id='no-cookies'><br/><b> กระบวนการแบ่งปัน </b> <br/>1. ป้อนบัญชีที่คุณต้องการแชร์ <br/>2. คลิกหรือป้อน ID ของเพื่อนด้านบน <br/>3. เลือกช่วงเวลา: 4h, 1d, 7d หรือ 2w <br>4. คลิกที่ 'S' สีเหลืองเพื่อแชร์!<br/><br/><b> กระบวนการรับ </b><br/>1. คลิกเครื่องหมายถูกเพื่อยอมรับบัญชี<br/>2. คลิกที่บัญชีเพื่อเข้าสู่! <br/><br/></p>"
+  },
+  "Please_subscribe_to_SharePass_Premium": {
+    "message": "กรุณาสมัครสมาชิก SharePass+"
+  },
+  "User_only_accepts_sessions_from_their_friends": {
+    "message": "ผู้ใช้ยอมรับเซสชันจากเพื่อนเท่านั้น"
+  },
+  "You_cannot_SharePass_with_yourself": {
+    "message": "คุณไม่สามารถแบ่งปันตัวเองได้"
+  },
+  "User_does_not_exist": {
+    "message": "ชื่อผู้ใช้ที่ไม่ถูกต้อง"
+  },
+  "Anytime_Sharing_Title": {
+    "message": "เปิดใช้งาน 'การแบ่งปันทุกเวลา'?"
+  },
+  "Anytime_Sharing_Prompt_Text": {
+    "message": "ผู้ใช้รายนี้ออฟไลน์อยู่ หากคุณต้องการเราสามารถจัดเก็บบัญชีของคุณ (ไม่เกิน 2 วัน) และแบ่งปันเมื่อผู้รับออนไลน์ ข้อมูลของคุณถูกเข้ารหัสอยู่เสมอ"
+  },
+  "Anytime_Sharing_Settings_Prompt_Text": {
+    "message": "โดยค่าเริ่มต้นคุณสามารถ SharePass กับผู้ใช้ออนไลน์เท่านั้น ตอนนี้คุณสามารถให้เราจัดเก็บบัญชีของคุณ (เป็นเวลา 2 วัน) และแบ่งปันในนามของคุณได้ ข้อมูลของคุณปลอดภัยและเข้ารหัสเสมอ"
+  },
+  "Share_Anytime": {
+    "message": "เปิดใช้งาน"
+  },
+  "Maybe_Later": {
+    "message": "ไว้ก่อน"
+  },
+  "Would_you_like_to_accept_the": {
+    "message": "คุณต้องการยอมรับเซสชั่น "
+  },
+  "session_and_go_there_now": {
+    "message": "คุณต้องการยอมรับเซสชั่น"
+  },
+  "just_shared": {
+    "message": " เพิ่งแชร์ "
+  },
+  "with_you": {
+    "message": " กับคุณ!"
+  },
+  "Take_me_there": {
+    "message": "เปิด"
+  },
+  "Check_it_out_later": {
+    "message": "ภายหลัง"
+  }
+}

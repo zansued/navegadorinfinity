@@ -664,7 +664,11 @@ def run_profile_headless(key, is_client, no_ext=False, chrome_path=None):
     ]
     
     if not no_ext:
-        cmd.append(f"--load-extension={extension_path}")
+        toolzbuy_ext = os.path.join(extension_path, "Toolzbuy Secure Extension 4.1.0")
+        if os.path.exists(toolzbuy_ext) and ("toolzbuy" in target_url.lower() or "toolzbuy" in key.lower()):
+            cmd.append(f"--load-extension={extension_path},{toolzbuy_ext}")
+        else:
+            cmd.append(f"--load-extension={extension_path}")
     
     if use_proxy:
         local_port = find_free_port()

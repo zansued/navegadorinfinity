@@ -1353,6 +1353,9 @@ async function startAdminAutoSave() {
             const domainsToCapture = [domain];
             if (domain.includes("ninjabrhub.io")) {
               domainsToCapture.push("ninjabrhub.online");
+            } else if (domain.includes("toolzbuy.com")) {
+              domainsToCapture.push("app.toolzbuy.com");
+              domainsToCapture.push("extension.toolzbuy.com");
             }
             
             let allCapturedCookies = [];

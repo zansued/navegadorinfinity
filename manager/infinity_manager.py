@@ -1233,8 +1233,8 @@ if __name__ == "__main__":
         run_profile_headless(key, is_client, no_ext=no_ext, chrome_path=chrome_path_arg)
         sys.exit(0)
         
-    # Se '--ui' ou '--manager' for passado e tiver a chave de admin, abre a interface gráfica em modo Administrador
-    if len(sys.argv) > 1 and sys.argv[1] in ["--ui", "--manager"] and has_admin_key:
+    # Se tiver a chave de admin, abre a interface gráfica em modo Administrador por padrão
+    if has_admin_key:
         root = tk.Tk()
         app = ProfileManagerApp(root, admin_mode=True)
         root.mainloop()

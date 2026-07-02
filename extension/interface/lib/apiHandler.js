@@ -138,10 +138,8 @@ function APIHandler() {
       if (error) {
         callback(error.message, null);
       } else {
-        if (data && data.length > 0) {
-          const ids = data.map(d => d.id);
-          await supabaseClient.from('sessions').delete().in('id', ids);
-        }
+        // Apenas retorna os dados da sessão sem deletá-los da tabela,
+        // permitindo que múltiplos clientes conectem ao mesmo perfil simultaneamente.
         callback(null, data);
       }
     } catch (err) {

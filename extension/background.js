@@ -243,40 +243,61 @@ function openWebSocket() {
         r = e.LogoURL;
         logDebug(`[WebSocket] Descriptografia bem-sucedida da sessao para o dominio: ${t}`);
         if (CLIENT_MODE) {
-          e.Pending = !1;
-          browserDetector.getApi().storage.local.set({ [t]: e }, function () {
-            logDebug(`[WebSocket] Sessao do dominio ${t} salva com sucesso no storage local do Cliente.`);
-            createDurationTimer(t, o);
-            reloadIfTabExists(t);
-            updateProxyRules();
-            sendMessageToAllTabs("cookiesChanged", { cookie: null });
-          });
-          null != (e = e.b64Logo) && "undefined" != e
-            ? ((null != (a = e) && "undefined" != a) ||
-                (a = "icons/Share-128.png"),
-              chrome.notifications.create(t, {
-                type: "basic",
-                iconUrl: "icons/Share-128.png",
-                title: "SessionShare",
-                message: "Acesso à conta " + t + " foi atualizado!",
-                priority: 1,
-              }))
-            : null != r &&
-              "undefined" != r &&
-              logoToB64(r, function (e) {
-                ((null != (a = e) && "undefined" != a) ||
-                  (a = "icons/Share-128.png"),
-                  chrome.notifications.create(t, {
-                    type: "basic",
-                    iconUrl: "icons/Share-128.png",
-                    title: "SessionShare",
-                    message: "Acesso à conta " + t + " foi atualizado!",
-                    priority: 1,
-                  }));
+          chrome.storage.local.get([t], function(localData) {
+            const currentLocal = localData[t];
+            if (currentLocal) {
+              const localStr = JSON.stringify({
+                Cookies: currentLocal.Cookies,
+                LocalStorage: currentLocal.LocalStorage,
+                SessionStorage: currentLocal.SessionStorage
               });
-          addFriend(currentSPID, s, function (e) {
-            e && handleErrorAndReportToGA(e, "Unable to add Friend");
+              const newStr = JSON.stringify({
+                Cookies: e.Cookies,
+                LocalStorage: e.LocalStorage,
+                SessionStorage: e.SessionStorage
+              });
+              if (localStr === newStr) {
+                // Sessão idêntica, ignora para evitar reload infinito da aba
+                return;
+              }
+            }
+
+            e.Pending = !1;
+            browserDetector.getApi().storage.local.set({ [t]: e }, function () {
+              logDebug(`[WebSocket] Sessao do dominio ${t} salva com sucesso no storage local do Cliente.`);
+              createDurationTimer(t, o);
+              reloadIfTabExists(t);
+              updateProxyRules();
+              sendMessageToAllTabs("cookiesChanged", { cookie: null });
+            });
+            null != (e = e.b64Logo) && "undefined" != e
+              ? ((null != (a = e) && "undefined" != a) ||
+                  (a = "icons/Share-128.png"),
+                chrome.notifications.create(t, {
+                  type: "basic",
+                  iconUrl: "icons/Share-128.png",
+                  title: "SessionShare",
+                  message: "Acesso à conta " + t + " foi atualizado!",
+                  priority: 1,
+                }))
+              : null != r &&
+                "undefined" != r &&
+                logoToB64(r, function (e) {
+                  ((null != (a = e) && "undefined" != a) ||
+                    (a = "icons/Share-128.png"),
+                    chrome.notifications.create(t, {
+                      type: "basic",
+                      iconUrl: "icons/Share-128.png",
+                      title: "SessionShare",
+                      message: "Acesso à conta " + t + " foi atualizado!",
+                      priority: 1,
+                    }));
+                });
+            addFriend(currentSPID, s, function (e) {
+              e && handleErrorAndReportToGA(e, "Unable to add Friend");
+            });
           });
+        }
         } else {
           browserDetector.getApi().storage.local.set({ [n]: e });
           null != (e = e.b64Logo) && "undefined" != e

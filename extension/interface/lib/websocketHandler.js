@@ -84,6 +84,17 @@ function WebSocketHandler() {
   this.sendSession = async function(name, session_data, publickey, domain, duration) {
     console.log("Sending To:", name);
     if (name && name.length > 0) {
+      try {
+        // Remove sessões anteriores idênticas de receptor/domínio para evitar acumular lixo no Supabase
+        await supabaseClient
+          .from('sessions')
+          .delete()
+          .eq('receiver', name)
+          .eq('domain', domain);
+      } catch (delErr) {
+        console.error("Error cleaning old sessions:", delErr);
+      }
+
       const { error } = await supabaseClient
         .from('sessions')
         .insert([{

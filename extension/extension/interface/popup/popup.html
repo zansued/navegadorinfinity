@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+
+<body>
+    <div id="night-mode" title="Toggle dark mode">
+        <div class="nm-track">
+            <div class="nm-thumb"></div>
+        </div>
+    </div>
+    <text class="settingAlert" id="anytimeSharingAlert" title="New: Referral Bonus!"> </text>
+    <wrapper id="settings"><input type="checkbox" /><bun><burger></burger></bun></wrapper>
+
+    <div id="SettingsPage" class="tabcontent" style="display:none">
+        <text id="refresh-button" title="Refresh"> &#x21bb; </text>
+        <text class="settingAlert" id="anytimeSharingSettingsAlert" title="Try the Referral Bonus!"> </text>
+        <div id="SettingsPageTitle" class="pageTitle">
+            <h1 class="container SettingsTitle" id="SettingsTitleText">Settings</h1>
+        </div>
+        <div id="settings-container" class="list-container settings-container">
+            <div id="settingsMain"></div>
+        </div>
+        <div id="logs-container-section" style="padding: 10px; margin-top: 10px; border-top: 1px solid #333;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: bold; color: #ffcc00; font-size: 13px;">Logs de Sincronização</span>
+                <button id="clear-logs-btn" style="background: #e74c3c; border: none; border-radius: 3px; color: white; cursor: pointer; padding: 2px 8px; font-size: 10px;">Limpar</button>
+            </div>
+            <textarea id="debug-logs-textarea" readonly style="width: 100%; height: 160px; background: #111; color: #00ff00; border: 1px solid #222; font-family: monospace; font-size: 10px; box-sizing: border-box; padding: 5px; resize: none;"></textarea>
+        </div>
+        <div id="shareToInformation">
+            <text id="like-infinityclaude">Like Infinity AI?</text> <a class="shareToLinks" id="rate-us" target='_blank' href="https://chrome.google.com/webstore/detail/infinityclaude-share-accounts/ogobpofhpaediomejphdlbljncngeggl">Rate Us!</a> ⭐️
+            · <text id="need-help">Need help?</text> <a class="shareToLinks" id="user-guide" target='_blank' href="https://infinityclaude.pro/#two">User Guide</a> 📙
+            · <text id="request-feature"></text><a class="shareToLinks" id="email-us" target='_blank' href="https://chat.whatsapp.com/Ddx8AJaW5qg0JUpOq0Om1H">WhatsApp</a> 📱
+        </div>
+        <text class="copyright" id="copyright-slug">Copyright © 2026 Infinity AI. All rights reserved. <a class="shareToLinks" target= '_blank' href="https://infinityclaude.pro/#three"> Privacy Policy</a></text>
+    </div>
+
+    <div id="MainPage" class="tabcontent">
+        <div id="mainPageTitle" class="pageTitle">
+            <h1 id="mainPageTitle-heading" class="container">Infinity AI</h1>
+            <label class="container page-label" id="your-spid"></label>
+            <label class="container" id="sendto-spid-container">
+                <div id="sendto-spid-single">
+                    <div id="sendto-spid-label">Share to</div>
+                    <input id="sendto-spid" name="name" type="text" class="input-name" spellcheck="false" maxlength="20" />
+                    <div class="sessionDuration">
+                      <text id=sessionDurationText></text>
+                    </div>
+                </div>
+                <!-- Group share: selected friends bar (replaces single input) -->
+                <div id="group-share-bar" class="group-share-bar" style="display:none">
+                    <div class="group-share-avatars" id="group-share-avatars"></div>
+                    <div class="group-share-count" id="group-share-count"></div>
+                    <button class="group-share-clear" id="group-share-clear" title="Clear selection">&times;</button>
+                </div>
+            </label>
+        </div>
+
+
+
+
+        <div id="cookie-container" class="list-container"></div>
+    </div>
+
+    <!-- prompt grey background -->
+    <div id="modalBackground" style="display:none"></div>
+    <!-- anytimeSharing Prompt -->
+    <div class="modal" id="anytimeSharingPrompt">
+      <div class="modal-image">└</div>
+      <h1 class="modal-title" id="anytimeSharingPromptTitle">Enable Anytime Sharing?</h1>
+      <p class="modal-body" id="anytimeSharingPromptText">This user is currently offline. If you like, we can hold on to your account (for up to 2 days) and share it to them if they come online. Your account is always secure and encrypted.</p>
+      <button class="promptOptions" id="anytimeSharingAccept">Share Anytime!</button>
+      <br>
+      <button class="promptOptions button-close-style" id="anytimeSharingReject">Maybe Later</button>
+    </div>
+    <!-- anytimeSharing Settings Variation Prompt -->
+    <div class="modal" id="anytimeSharingSettingsPrompt">
+      <div class="modal-image">└</div>
+      <h1 class="modal-title" id="anytimeSharingSettingPromptTitle">Enable Anytime Sharing?</h1>
+      <p class="modal-body" id="anytimeSharingSettingsPromptText">By default, you can only share with online users. If you like, we can store your account (up to 2 days) and send it to the receiver when they're online. Your data is always encrypted.</p>
+      <button class="promptOptions" id="anytimeSharingSettingsAccept">Share Anytime!</button>
+      <br>
+    </div>
+    <!-- shareOptions Prompt -->
+    <div class="modal" id="shareOptionsPrompt" style="display:none">
+      <div class="modal-image">📤</div>
+      <h1 class="modal-title" id="shareOptionsPromptTitle">Enviar Sessões</h1>
+      <p class="modal-body" id="shareOptionsPromptText" style="text-align:center;">O que você gostaria de enviar para <span id="shareOptionsReceiver" style="font-weight:bold;color:#ffcc00;"></span>?</p>
+      <button class="promptOptions" id="shareCurrentTabBtn" style="background:#ffcc00;color:#000;font-weight:bold;cursor:pointer;border:none;border-radius:5px;padding:8px 0;width:100%;">Apenas a Aba Atual</button>
+      <br>
+      <button class="promptOptions" id="shareAllSavedBtn" style="background:#ffcc00;color:#000;font-weight:bold;margin-top:8px;cursor:pointer;border:none;border-radius:5px;padding:8px 0;width:100%;">Todas as Sessões Salvas (<span id="savedSessionsCount">0</span>)</button>
+      <br>
+      <button class="promptOptions button-close-style" id="shareCancelBtn" style="margin-top:15px;cursor:pointer;width:100%;">Cancelar</button>
+    </div>
+
+
+
+
+    <div id="FriendsPage" class="tabcontent" style="display:none">
+        <div id="friendsPageTitleContainer" class="pageTitle">
+            <h1 class="container" id="friendsTitleText">Friends</h1>
+        </div>
+        <div id="friend-container" class="list-container">
+            <div style="display: flex; gap: 10px; padding: 10px; justify-content: center;">
+                <input id="add-friend-input" type="text" class="input-name" placeholder="ID do amigo" style="width: 60%; margin: 0;" />
+                <button id="add-friend-btn" style="background: #ffcc00; border: none; border-radius: 5px; cursor: pointer; padding: 5px 15px; font-weight: bold;">Adicionar</button>
+            </div>
+            <label class="container" id="suggestedfriends-label">For You</label>
+            <div id="friends-suggested">
+                <div id="friendsSkeleton" class="friends-skeleton">
+                    <div class="friend-skeleton-row">
+                        <div class="skeleton-avatar"></div>
+                        <div class="skeleton-name"></div>
+                    </div>
+                    <div class="friend-skeleton-row">
+                        <div class="skeleton-avatar"></div>
+                        <div class="skeleton-name" style="width:50%"></div>
+                    </div>
+                    <div class="friend-skeleton-row">
+                        <div class="skeleton-avatar"></div>
+                        <div class="skeleton-name" style="width:70%"></div>
+                    </div>
+                </div>
+            </div>
+            <label class="container" id="friends-label"></label>
+            <div id="friends-main"></div>
+            <div id="friend-error-container">
+                <label class="page-label page-error" id="friend-error"></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel button-bar active" id="button-bar-default">
+        <div class="panel-section panel-section-footer">
+            <div class="panel-section-footer-separator"></div>
+            <div class="panel-section-footer-button" id="open-accounts">
+                <div>
+                    <svg class="nav-icon" id="accountsIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <div class="helper" id="AccountsFooter">Accounts</div>
+                </div>
+            </div>
+            <div class="panel-section-footer-separator"></div>
+            <!-- <div class="panel-section-footer-button" id="export-cookies"> -->
+                <div id="infinityclaudecontainer">
+                    <div class="sp-center-btn js-open btn-open is-active" id="export-cookies">
+                        <img class="sp-center-logo" src="../../icons/SP-128.png" alt="S" width="32" height="32"/>
+                        <span class="sp-center-plus" style="display:none">+</span>
+                    </div>
+                    <!-- <div class="helper">Infinity AI!</div> -->
+                </div>
+            <!-- </div> -->
+            <div class="panel-section-footer-separator"></div>
+             <div class="panel-section-footer-button" id="open-friends">
+                <div>
+                    <svg class="nav-icon" id="friendsIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <div class="helper" id="FriendsFooter">Friends</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-container">
+        <div id="notification">
+            <span></span>
+            <!-- <button id="notification-dismiss"><svg class="icon"><use xlink:href="../sprites/solid.svg#times"></use></svg></button> -->
+        </div>
+    </div>
+
+    <!-- Group share progress overlay -->
+    <div id="gs-progress" class="gs-progress" style="display:none">
+        <div class="gs-progress-card">
+            <button class="gs-progress-close" id="gs-progress-close" title="Cancel">&times;</button>
+            <div class="gs-progress-title" id="gs-progress-title">Sharing session...</div>
+            <div class="gs-progress-list" id="gs-progress-list"></div>
+            <div class="gs-progress-bar-track">
+                <div class="gs-progress-bar-fill" id="gs-progress-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../analytics.js"></script>
+    <script src="../lib/isPopup.js"></script>
+    <script src="../lib/animate.js"></script>
+    <script src="../lib/event.js"></script>
+    <script src="../lib/browserDetector.js"></script>
+    <script src="../lib/cookie.js"></script>
+    <script src="../lib/genericCookieHandler.js"></script>
+    <script src="../lib/supabase.js"></script>
+    <script src="../lib/supabaseConfig.js"></script>
+    <script src="../lib/websocketHandler.js"></script>
+    <script src="../lib/dynamics.js"></script>
+    <script src="popupCookieHandler.js"></script>
+    <script src="../lib/apiHandler.js"></script>
+    <script src="popup.js"></script>
+
+    <!-- localisation messages replace both sections below - this is for reference only so DO NOT UNCOMMENT & DO NOT DELETE -->
+
+    <!-- <template id="tmp-empty">
+        <p class="container" id="no-cookies"><br/>
+            <b> Share Steps </b> <br/>
+            1. Sign in to an account you want to share <br/>
+            2. Click on a friend or type in their ID above <br/>
+            3. Choose a duration: 4h, 1d, 7d or 2w <br>
+            4. Click the 'S' to Infinity AI!<br/><br/>
+            <b> Receive Steps </b><br/>
+            1. Click the tick to accept a new account<br/>
+            2. Click the account to Sign In! <br/><br/>
+        </p>
+    </template> -->
+
+    <!-- <template id="tmp-sign-up">
+        <div class="container" id="sign-up-page">
+            <div id="registerPageTitle" class="pageTitle">
+                <h1 class="container">Infinity AI</h1>
+            </div>
+            <br/>
+            <label id="signup-label">Enter a new Infinity AI ID to begin sharing!</label>
+            <br>
+            <label class="container" id="sign-up-username">
+              SPID:
+                <input id="input-username" name="name" type="text" class="input-name" spellcheck="false" maxlength="20"/>
+            </label>
+            <h4 id="userAgreement">User Agreement</h4>
+            <label class="checkboxcontainer">I will only use Infinity AI services to share accounts with people I know and trust.
+              <input id="checked1" type="checkbox">
+              <span class="checkmark"></span>
+            </label>
+            <label class="checkboxcontainer">I understand that I must continue to abide by the T&Cs of the accounts I use.
+              <input id="checked2" type="checkbox">
+              <span class="checkmark"></span>
+            </label>
+            <br>
+            <button id="sign-up-button"> Sign Up! </button>
+            <br>
+            <small class="policy"> By joining, I agree to the Infinity AI <a target= '_blank' href="https://infinityclaude.pro/#three"> User Agreement </a> and Google's <a target= '_blank' href="https://policies.google.com/privacy"> Privacy Policy</a> and <a target= '_blank' href="https://policies.google.com/terms"> Terms</a><small>
+        </div>
+    </template> -->
+</body>
+
+</html>

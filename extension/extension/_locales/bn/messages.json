@@ -1,0 +1,326 @@
+{
+  "SideBar_Welcome_To_SharePass": {
+    "message": "SharePass এ আপনাকে স্বাগতম"
+  },
+  "SideBar_Getting_Started": {
+    "message": "শুরু হচ্ছে"
+  },
+  "WelcomeReady_to_SharePass": {
+    "message": "SharePass জন্য প্রস্তুত?"
+  },
+  "Get_Started_TagLine": {
+    "message": "সেকেন্ডে সাইন আপ করুন এবং অবিলম্বে ভাগ শুরু করুন।"
+  },
+  "Get_Started_Button": {
+    "message": "চল শুরু করি"
+  },
+  "welcomeGetStartedHeader": {
+    "message": "শুরু হচ্"
+  },
+  "welcomeGetStartedText": {
+    "message": "সেট আপ সম্পূর্ণ করতে নীচের পদক্ষেপগুলি অনুসরণ করুন।"
+  },
+  "Pin_SharePass_Title": {
+    "message": "1. SharePass এক্সটেনশন পিন করুন"
+  },
+  "Pin_SharePass_Text": {
+    "message": "ভিডিও অনুযায়ী ধাঁধা আইকনে ক্লিক করুন এবং SharePass এক্সটেনশন <span style='background-color:yellow;'> পিন 📌</span> যাতে আপনি কোনও বিজ্ঞপ্তি মিস না করেন!"
+  },
+  "Sign_Up_Title": {
+    "message": "2. নিবন্ধন"
+  },
+  "Sign_Up_Text": {
+    "message": "'<span style='background-color:#ffdd00; font-weight: bold;'>S</span>' আইকনটি ক্লিক করুন এবং সেকেন্ডে সাইন আপ করতে একটি ব্যবহারকারীর নাম চয়ন করুন।"
+  },
+  "Share_First_Account_Title": {
+    "message": "3. আপনার প্রথম অ্যাকাউন্টটি ভাগ করুন!"
+  },
+  "Share_First_Account_Text": {
+    "message": "আপনার প্রথম অ্যাকাউন্টটি বন্ধুদের সাথে ভাগ করতে <a style='text-decoration: underline; background-color:lightgreen' href='https://sharepass.github.io#two'>ব্যবহারকারীর গাইড</a> অনুসরণ করুন!"
+  },
+  "Welcome_Rate_Us_Title": {
+    "message": "4. আপনার মতামত জানান"
+  },
+  "Welcome_Rate_Us_Text": {
+    "message": "আমরা আপনাকে <a style='text-decoration: underline; background-color:pink;' href='https://chrome.google.com/webstore/detail/sharepass-share-accounts/ogobpofhpaediomejphdlbljncngeggl'>পর্যালোচনা</a> এবং উন্নতিগুলি সন্ধান করছেন। শেয়ারপাস চেষ্টা করে দেখুন এবং আপনার মতামত আমাদের জানান!"
+  },
+  "SharePass_Share_Accounts_Not_Passwords": {
+    "message": "SharePass - পাসওয়ার্ড ছাড়াই অ্যাকাউন্টগুলি ভাগ করুন।"
+  },
+  "Share_your_accounts_without_ever_giving_your_passwords_away": {
+    "message": "আপনার পাসওয়ার্ড ছাড়াই অ্যাকাউন্টগুলি ভাগ করুন!"
+  },
+  "Sign_Up_Page": {
+    "message": "<div class='container' id='sign-up-page'><div id='registerPageTitle' class='pageTitle'><h1 class='container'>SharePass</h1></div><br/><label id='signup-label'>ভাগ করে নেওয়া শুরু করতে একটি নতুন SharePass আইডি লিখুন!</label><br><label class='container' id='sign-up-username'>আইডি:<input id='input-username' name='name' type='text' class='input-name' spellcheck='false' maxlength='20'/></label><h4 id='userAgreement'>ব্যবহারকারী চুক্তি</h4><label class='checkboxcontainer'>আমি কেবল আমার পরিচিত এবং বিশ্বাসীদের সাথে অ্যাকাউন্টগুলি ভাগ করে নেওয়ার জন্য শেয়ারপাস পরিষেবাগুলি ব্যবহার করব।<input id='checked1' type='checkbox'><span class='checkmark'></span></label><label class='checkboxcontainer'>আমি বুঝতে পারি যে আমার অবশ্যই ব্যবহার করা অ্যাকাউন্টগুলির টি ও সিএস অবশ্যই মেনে চলতে হবে।.<input id='checked2' type='checkbox'><span class='checkmark'></span></label><br><button id='sign-up-button'> নিবন্ধন করুন! </button><br><small class='policy'> যোগদান করে, আমি SharePass <a target= '_blank' href='https://sharepass.github.io/#three'> ব্যবহারকারীর চুক্তি </a> এবং Google's <a target= '_blank' href='https://policies.google.com/privacy'> গোপনীয়তা নীতি</a> এবং <a target= '_blank' href='https://policies.google.com/terms'> শর্তাবলী</a><small></div>"
+  },
+  "Please_enter_your_SPID": {
+    "message": "আপনার আইডি প্রবেশ করুন"
+  },
+  "SPIDs_can_consist_of_letters_numbers_underscores_or_periods": {
+    "message": "আইডিতে অবশ্যই অক্ষর, সংখ্যা, আন্ডারস্কোর বা পিরিয়ড থাকতে হবেে"
+  },
+  "Please_agree_to_our_terms": {
+    "message": "আপনার আমাদের শর্তাদিতে সম্মত হওয়া দরকার"
+  },
+  "Username_has_already_been_registered": {
+    "message": "আইডি ইতিমধ্যে বিদ্যমান। অন্য একটি চয়ন করুন।"
+  },
+  "Success_Reopen_the_app_to_start_sharing": {
+    "message": "সফল! ভাগ করে নেওয়া শুরু করতে অ্যাপটি আবার খুলুন!"
+  },
+  "You_cant_share_what_isnt_yours": {
+    "message": "যা আপনার নয় তা আপনি ভাগ করতে পারবেন না।"
+  },
+  "Unable_to_SharePass_Invalid_URL": {
+    "message": "এই ইউআরএল ভাগ করা যায় না।"
+  },
+  "SharePass_Successful": {
+    "message": "সফল হয়েছে!"
+  },
+  "Hmm_that_username_doesnt_look_right": {
+    "message": "এই ব্যবহারকারীর নামটি ঠিক দেখাচ্ছে না।"
+  },
+  "Account_Saved_Try_sharing_with_a_friend": {
+    "message": "অ্যাকাউন্ট সংরক্ষিত - কোনও বন্ধুর সাথে ভাগ করে নেওয়ার চেষ্টা করুন!"
+  },
+  "Unable_to_add_friend": {
+    "message": "বন্ধু যোগ করতে অক্ষম: "
+  },
+  "Unable_to_remove_friend": {
+    "message": "বন্ধু সরাতে অক্ষম: "
+  },
+  "Hey": {
+    "message": "ওহে "
+  },
+  "Bonjour": {
+    "message": "Bonjour "
+  },
+  "Hola": {
+    "message": "Hola "
+  },
+  "Gday": {
+    "message": "G'day "
+  },
+  "Namaste": {
+    "message": "Namaste "
+  },
+  "Welcome": {
+    "message": "স্বাগত "
+  },
+  "Aloha": {
+    "message": "Aloha "
+  },
+  "Hows_it_going": {
+    "message": " কেমন চলছে?"
+  },
+  "Sharing_or_Passing_today": {
+    "message": " কেমন চলছে?"
+  },
+  "Ready_to_SharePass": {
+    "message": " শেয়ার করতে প্রস্তুত?"
+  },
+  "What_can_I_do_for_you": {
+    "message": " আমি আপনার জন্য কি করতে পারি?"
+  },
+  "SharePass_and_Chill": {
+    "message": " SharePass and Chill?"
+  },
+  "Get_Premium_Today": {
+    "message": "আজই প্রিমিয়াম নিন"
+  },
+  "Remove_Ads": {
+    "message": "বিজ্ঞাপনগুলিকে বিদায় জানান"
+  },
+  "Limitless_Sharing": {
+    "message": "২ সপ্তাহের সীমা ভঙ্গ করুন"
+  },
+  "Share_with_Groups": {
+    "message": "গ্রুপগুলির সাথে শেয়ার করুন"
+  },
+  "Get_Premium_Today_Promo": {
+    "message": "প্রিমিয়াম পান ৭৫% ছাড়ে"
+  },
+  "Refer_Friend_Promo": {
+    "message": "একজন বন্ধুকে রেফার করুন এবং ৩ মাসের জন্য ফ্রি নেটফ্লিক্স জেতার সুযোগ পান"
+  },
+  "Remove_Ad_Promo": {
+    "message": "বিজ্ঞাপন অপসারণ করুন ৭৫% ছাড়ে"
+  },
+  "Limitless_Sharing_Promo": {
+    "message": "সীমাহীন শেয়ার করুন ৭৫% ছাড়ে"
+  },
+  "Share_To": {
+    "message": "পাঠানো:"
+  },
+  "No_friends_message": {
+    "message": "দেখে মনে হচ্ছে আপনার কোনও বন্ধু নেই। <br><br> শুরু করার জন্য, আপনাকে ভাগ করে নেওয়া শুরু করতে হবে! <br><br> অ্যাকাউন্ট ট্যাবে যান এবং আপনার পরিচিত কারও সাথে ভাগ করুন। - আমরা এগুলি আপনার জন্য আপনার বন্ধুদের তালিকায় যুক্ত করব।"
+  },
+  "SettingsTitleText": {
+    "message": "সেটিংস"
+  },
+  "Paid_User": {
+    "message": "SharePass+"
+  },
+  "Get_Premium": {
+    "message": "প্রিমিয়াম নিন"
+  },
+  "You_asked_we_heard_you": {
+    "message": "আপনি জিজ্ঞাসা করেছিলেন, আমরা শুনেছি। SharePass+ অবশেষে এখানে।"
+  },
+  "Lets_go": {
+    "message": "চলুন যাই!"
+  },
+  "Subscription_Options": {
+    "message": "সাবস্ক্রিপশন বিকল্পগুলি"
+  },
+  "Checkout": {
+    "message": "চেকআউট"
+  },
+  "Premium": {
+    "message": "প্রিমিয়াম"
+  },
+  "Standard": {
+    "message": "স্ট্যান্ডার্ড"
+  },
+  "Premium_Mo": {
+    "message": "প্রিমিয়াম - &#36;19.99 / মাস"
+  },
+  "Premium_Mo_Promo": {
+    "message": "&#36;9.99 / মাস"
+  },
+  "Standard_Free": {
+    "message": "স্ট্যান্ডার্ড - বিনামূল্যে"
+  },
+  "Premium_Checkout_Text": {
+    "message": "১ মাস, ৩ মাস, ৬ মাস এবং পুরো ১ বছরের জন্য শেয়ার করুন! এবং সত্যিকারের SharePass স্পিরিটে, আপনি প্রিমিয়াম আপনার সব বন্ধুদের সাথে শেয়ার করতে পারেন। গ্রুপ শেয়ারিং সহ আরও অনেক কার্যকর বৈশিষ্ট্য শীঘ্রই আসছে তাই আজই প্রিমিয়াম পান।"
+  },
+  "Standard_Checkout_Text": {
+    "message": "আমরা সবাই যে আসল SharePass অভিজ্ঞতাটি জানি এবং ভালোবাসি তা সর্বদা বিনামূল্যে থাকবে। আপনি যে কোনও সময় শেয়ার করার সুবিধাসহ আপনার অ্যাকাউন্টগুলি একবারে ২ সপ্তাহ পর্যন্ত শেয়ার করুন। ডার্ক মোডও ট্রাই করতে ভুলবেন না!"
+  },
+  "Manage_Premium": {
+    "message": "প্রিমিয়াম পরিচালনা করুন"
+  },
+  "Offline_Sharing": {
+    "message": "সারাদিন SharePass"
+  },
+  "Group_Sharing": {
+    "message": "গ্রুপ শেয়ারিং"
+  },
+  "Coming_Soon": {
+    "message": "শীঘ্রই আসছে"
+  },
+  "Appear_on_For_You": {
+    "message": "'তোমার জন্য' উপস্থিত"
+  },
+  "Yes": {
+    "message": "হ্যাঁ"
+  },
+  "No": {
+    "message": "না"
+  },
+  "Receive_From": {
+    "message": "ভাগ করার অনুমতি"
+  },
+  "Friends_Only": {
+    "message": "বন্ধুরা শুধু"
+  },
+  "Anyone": {
+    "message": "যে কেউ"
+  },
+  "Theme": {
+    "message": "মোড"
+  },
+  "Summer": {
+    "message": "সূর্য"
+  },
+  "Midnight": {
+    "message": "রাত"
+  },
+  "Like_sharepass": {
+    "message": "SharePass ভালবাসি?"
+  },
+  "Rate_Us": {
+    "message": "পুনঃমূল্যায়ন!"
+  },
+  "Support_our_community": {
+    "message": "আমাদের সমর্থন:"
+  },
+  "Donate": {
+    "message": "দান করা"
+  },
+  "Need_help": {
+    "message": "সাহায্য দরকার?"
+  },
+  "User_Guide": {
+    "message": "নির্দেশাবলী"
+  },
+  "Request_feature": {
+    "message": "ইস্যুটি রিপোর্ট করুন:"
+  },
+  "Email_Us": {
+    "message": "আমাদের একটি ইমেইল পাঠান"
+  },
+  "Copyright": {
+    "message": "কপিরাইট © 2026 SharePass. সর্বস্বত্ব সংরক্ষিত. <a class='shareToLinks' target= '_blank' href='https://sharepass.github.io/#three'> গোপনীয়তা নীতি</a>."
+  },
+  "AccountsFooter": {
+    "message": "অ্যাকাউন্টস"
+  },
+  "FriendsFooter": {
+    "message": "বন্ধুরা"
+  },
+  "friendsTitleText": {
+    "message": "বন্ধুরা"
+  },
+  "For_You": {
+    "message": "তোমার জন্য"
+  },
+  "No_Cookies": {
+    "message": "<p class='container' id='no-cookies'><br/><b> ভাগ করার নির্দেশাবলী </b> <br/>1. ভাগ করতে একটি অ্যাকাউন্টে সাইন ইন করুন <br/>2. কোনও বন্ধু নির্বাচন করুন বা তাদের আইডি টাইপ করুন <br/>3. একটি সময়কাল চয়ন করুন: 4h, 1d, 7d বা 2w <br>4. ক্লিক করুন 'S' শেয়ার করার জন্য!<br/><br/><b> নির্দেশনা গ্রহণ করুন </b><br/>1. অ্যাকাউন্টটি গ্রহণ করতে টিক ক্লিক করুন <br/>2. সাইন ইন করতে অ্যাকাউন্টে ক্লিক করুন! <br/><br/></p>"
+  },
+  "Please_subscribe_to_SharePass_Premium": {
+    "message": "অনুগ্রহ করে SharePass+ সাবস্ক্রাইব করুন।"
+  },
+  "User_only_accepts_sessions_from_their_friends": {
+    "message": "এই ব্যবহারকারীটি কেবলমাত্র বন্ধুদের সেশনের অনুমতি দেয়"
+  },
+  "You_cannot_SharePass_with_yourself": {
+    "message": "আপনি নিজের সাথে ভাগ করতে পারবেন না"
+  },
+  "User_does_not_exist": {
+    "message": "ব্যবহারকারী কোন অস্তিত্ব নেই"
+  },
+  "Anytime_Sharing_Title": {
+    "message": "সারাদিন SharePass"
+  },
+  "Anytime_Sharing_Prompt_Text": {
+    "message": "এই ব্যবহারকারী অফলাইন। আপনি যদি চান এবং আপনার পক্ষ থেকে এটি ভাগ করে নেন তবে আমরা আপনার অ্যাকাউন্টটি (2 দিন অবধি) ধরে রাখতে পারি। আপনার ডেটা সর্বদা সুরক্ষিত এবং এনক্রিপ্ট করা থাকে।"
+  },
+  "Anytime_Sharing_Settings_Prompt_Text": {
+    "message": "সাধারণত আপনি কেবল অনলাইন ব্যবহারকারীদের সাথে ভাগ করতে পারেন। আমরা আপনার অ্যাকাউন্টটি ধরে রাখতে পারি (2 দিন অবধি) এবং এটি আপনার পক্ষে ভাগ করে নিতে পারি। আপনার ডেটা সর্বদা এনক্রিপ্ট করা থাকে।"
+  },
+  "Share_Anytime": {
+    "message": "সক্ষম করুন"
+  },
+  "Maybe_Later": {
+    "message": "এখন না"
+  },
+  "Would_you_like_to_accept_the": {
+    "message": "আপনি কি "
+  },
+  "session_and_go_there_now": {
+    "message": " অধিবেশন অনুমোদন করতে এবং এখন সেখানে যেতে চান?"
+  },
+  "just_shared": {
+    "message": " আপনার সাথে "
+  },
+  "with_you": {
+    "message": " ভাগ করেছেন"
+  },
+  "Take_me_there": {
+    "message": "খোলা"
+  },
+  "Check_it_out_later": {
+    "message": "এখন না"
+  }
+}

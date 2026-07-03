@@ -1,0 +1,100 @@
+{
+    "Flow Google": {
+        "name": "Flow Google",
+        "url": "https://labs.google/fx/pt/tools/flow",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_flow_google_bb0b7162"
+    },
+    "Ninja Hub": {
+        "name": "Ninja Hub",
+        "url": "https://ninjabrhub.io/",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_ninja_hub_496c7bbd"
+    },
+    "go vip": {
+        "name": "go vip",
+        "url": "https://govip.com.br/dashboard/",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_go_vip_058f34c1"
+    },
+    "Epidemic Sound": {
+        "name": "Epidemic Sound",
+        "url": "https://www.epidemicsound.com/",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_epidemic_sound_c5d27c09"
+    },
+    "GROK": {
+        "name": "GROK",
+        "url": "https://grok.com/",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_grok_58bcd258"
+    },
+    "DREAMFACE": {
+        "name": "DREAMFACE",
+        "url": "https://www.dreamfaceapp.com/video",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_dreamface_cb194c06"
+    },
+    "Adobe Cloud": {
+        "name": "Adobe Cloud",
+        "url": "https://www.adobe.com/home?acomLocale=br&mv=other&promoid=LLVYT1CM",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_adobe_cloud_43914a65"
+    },
+    "PACK TOOLZBUY": {
+        "name": "PACK TOOLZBUY",
+        "url": "https://app.toolzbuy.com/member",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_pack_toolzbuy_8e15bc98"
+    },
+    "CAPCUT": {
+        "name": "CAPCUT",
+        "url": "https://www.capcut.com/my-edit",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_capcut_7d089101"
+    },
+    "PACK FERRAMENTAS  DE SEO": {
+        "name": "PACK FERRAMENTAS  DE SEO",
+        "url": "https://ferramentasdeseo.com/area-de-membros/",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_pack_ferramentas__de_seo_89073e68"
+    },
+    "SEOPACK": {
+        "name": "SEOPACK",
+        "url": "https://seopack.org/v2/dashboard/",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_seopack_914e744d"
+    },
+    "IDEOGRAM": {
+        "name": "IDEOGRAM",
+        "url": "https://ideogram.ai/t/explore",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_ideogram_db939dd0"
+    },
+    "DREAMLAMINA (MOTION  CONTROL INFINITO)": {
+        "name": "DREAMLAMINA (MOTION  CONTROL INFINITO)",
+        "url": "https://dream-machine.lumalabs.ai/ideas",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_dreamlamina_motion__control_infinito_4749b2c4"
+    },
+    "SEAART": {
+        "name": "SEAART",
+        "url": "https://www.seaart.ai/",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_seaart_d1b5eb25"
+    }
+}

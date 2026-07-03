@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinity AI - Hub de Navegação</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="logo-section">
+        <h1>Infinity AI</h1>
+        <p>Hub de Acesso a Contas e Perfis Compartilhados</p>
+      </div>
+      <div class="header-actions">
+        <a href="admin.html" class="btn btn-secondary btn-sm" id="btn-admin-panel">Painel Administrador</a>
+      </div>
+    </header>
+
+    <!-- Barra de busca rápida -->
+    <div class="glass-panel" style="margin-bottom: 30px; padding: 20px;">
+      <div class="search-box" style="position: relative;">
+        <input type="text" id="search-input" placeholder="Pesquisar por nome de perfil ou URL...">
+      </div>
+    </div>
+
+    <!-- Lista de perfis -->
+    <main>
+      <div id="loading-spinner" class="spinner"></div>
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-state-icon">📂</div>
+        <p>Nenhum perfil disponível no momento.</p>
+      </div>
+      <div id="profiles-grid" class="profiles-grid"></div>
+    </main>
+
+    <!-- Card de download do launcher -->
+    <div class="download-card">
+      <div class="download-info">
+        <h3>Precisa do Launcher Local?</h3>
+        <p>O Launcher é necessário para sincronizar os cookies e abrir os perfis do Chrome de forma segura e portátil na sua máquina.</p>
+      </div>
+      <a href="Infinity_AI_Cliente_Dist.zip" class="btn btn-primary" download id="btn-download-launcher">
+        📥 Baixar Launcher (.ZIP)
+      </a>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // Inicializa o cliente do Supabase
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const emptyState = document.getElementById('empty-state');
+    const profilesGrid = document.getElementById('profiles-grid');
+    const searchInput = document.getElementById('search-input');
+    const toast = document.getElementById('toast');
+
+    let allProfiles = [];
+
+    // Carrega perfis do Supabase
+    async function loadProfiles() {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .order('name', { ascending: true });
+
+        if (error) throw error;
+
+        allProfiles = data || [];
+        renderProfiles(allProfiles);
+      } catch (err) {
+        showToast("Erro ao carregar perfis: " + err.message, "error");
+        loadingSpinner.style.display = 'none';
+        emptyState.style.display = 'block';
+      }
+    }
+
+    // Renderiza os perfis na tela
+    function renderProfiles(profiles) {
+      loadingSpinner.style.display = 'none';
+      profilesGrid.innerHTML = '';
+
+      if (profiles.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      profiles.forEach(profile => {
+        const card = document.createElement('div');
+        card.className = 'profile-card';
+
+        const hasProxy = profile.mode === 'proxy';
+        let proxyDisplay = 'Sem Proxy';
+        if (hasProxy && profile.proxy) {
+          proxyDisplay = profile.proxy.split(':')[0]; // Exibe apenas o host para ficar mais limpo
+        }
+
+        // Determina URL limpa para exibição
+        let cleanUrl = profile.url || 'https://claude.ai';
+
+        card.innerHTML = `
+          <div class="profile-header">
+            <div class="profile-name">${escapeHTML(profile.name)}</div>
+            <div class="profile-url">
+              <svg class="profile-url-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              <span>${escapeHTML(cleanUrl)}</span>
+            </div>
+          </div>
+          <div class="profile-details">
+            <div class="detail-row">
+              <span class="detail-label">Status</span>
+              <span class="badge ${hasProxy ? 'badge-proxy' : 'badge-direct'}">${hasProxy ? 'Proxy Ativo' : 'Direto'}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Servidor</span>
+              <span class="detail-value">${escapeHTML(proxyDisplay)}</span>
+            </div>
+          </div>
+          <button class="btn btn-success btn-open-profile" data-key="${encodeURIComponent(profile.name)}" style="width: 100%;">
+            🚀 Abrir Navegador
+          </button>
+        `;
+
+        profilesGrid.appendChild(card);
+      });
+
+      // Adiciona eventos aos botões
+      document.querySelectorAll('.btn-open-profile').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const key = decodeURIComponent(e.target.getAttribute('data-key'));
+          openProfile(key);
+        });
+      });
+    }
+
+    // Executa a URI de protocolo customizado
+    function openProfile(key) {
+      // infinity://open?key=Nome_do_Perfil
+      const protocolUrl = `infinity://open?key=${encodeURIComponent(key)}`;
+      
+      showToast(`Iniciando launcher para "${key}"...`);
+      
+      // Abre a URI de protocolo em background
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = protocolUrl;
+      document.body.appendChild(iframe);
+      
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 1000);
+    }
+
+    // Filtro de busca
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      const filtered = allProfiles.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        (p.url && p.url.toLowerCase().includes(query))
+      );
+      renderProfiles(filtered);
+    });
+
+    // Função de Toast
+    function showToast(message, type = "success") {
+      toast.textContent = message;
+      toast.className = `toast active ${type}`;
+      setTimeout(() => {
+        toast.className = 'toast';
+      }, 4000);
+    }
+
+    // Escape de HTML simples para segurança
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // Carrega os dados na inicialização
+    window.addEventListener('DOMContentLoaded', loadProfiles);
+  </script>
+</body>
+</html>

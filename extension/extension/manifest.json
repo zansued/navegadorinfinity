@@ -1,0 +1,56 @@
+{
+	"manifest_version": 3,
+	"name": "__MSG_SharePass_Share_Accounts_Not_Passwords__",
+	"version": "3.0.1",
+	"author": "Infinity AI",
+	"description": "__MSG_Share_your_accounts_without_ever_giving_your_passwords_away__",
+	"default_locale": "pt_BR",
+	"background": {
+		"service_worker": "serviceWorkerLoader.js"
+	},
+	"minimum_chrome_version": "116",
+	"action": {
+		"default_icon": {
+			"16": "icons/SP-16.png",
+			"19": "icons/SP-19.png",
+			"32": "icons/SP-32.png",
+			"48": "icons/SP-48.png",
+			"128": "icons/SP-128.png"
+		},
+		"default_title": "Infinity AI!",
+		"default_popup": "interface/popup/popup.html"
+	},
+	"permissions": [
+		"activeTab",
+		"cookies",
+		"storage",
+		"tabs",
+		"notifications",
+		"browsingData",
+		"alarms",
+		"scripting",
+		"webRequest",
+		"webRequestAuthProvider"
+	],
+	"host_permissions": [
+		"*://*/*"
+	],
+	"content_scripts": [
+		{
+			"matches": ["*://*/*"],
+			"js": ["content_script.js"],
+			"run_at": "document_start",
+			"all_frames": true
+		}
+	],
+	"icons": {
+		"16": "icons/SP-16.png",
+		"19": "icons/SP-19.png",
+		"32": "icons/SP-32.png",
+		"48": "icons/SP-48.png",
+		"128": "icons/SP-128.png"
+	},
+	"content_security_policy": {
+		"extension_pages": "script-src 'self'; object-src 'self';"
+	}
+}

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>SharePass - Share Accounts. Not Passwords.</title>
+		<meta name="title" content="SharePass">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="style.css" />
+		<noscript><link rel="stylesheet" href="noscript.css" /></noscript>
+		<!-- Favicons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="../../icons/SP-128.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="../../icons/SP-32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="../../icons/SP-16.png">
+		<link rel="mask-icon" href="../../icons/SP-128.png" color="#ceaa00">
+		<!-- Nunito — same bubbly font as the extension popup (local files) -->
+		<style>
+			/* ═══════════════════════════════════════════════════
+			   WELCOME PAGE — bubble theme (matches popup)
+			   ═══════════════════════════════════════════════════ */
+
+			/* Nunito — local font files (same as popup) */
+			@font-face {
+				font-family: 'Nunito';
+				font-style: normal;
+				font-weight: 400;
+				src: url('../popup/fonts/Nunito-Regular.woff2') format('woff2');
+			}
+			@font-face {
+				font-family: 'Nunito';
+				font-style: normal;
+				font-weight: 700;
+				src: url('../popup/fonts/Nunito-Bold.woff2') format('woff2');
+			}
+			@font-face {
+				font-family: 'Nunito';
+				font-style: normal;
+				font-weight: 800;
+				src: url('../popup/fonts/Nunito-ExtraBold.woff2') format('woff2');
+			}
+
+			/* Reset base style.css overrides — kill sidebar and its spacing */
+			#sidebar { display: none !important; }
+			#wrapper,
+			#sidebar + #wrapper {
+				padding-left: 0 !important;
+				padding-top: 0 !important;
+				margin-left: 0 !important;
+			}
+			#sidebar + #wrapper + #footer { margin-left: 0 !important; }
+
+			body {
+				background: #f5f4ef !important;
+				font-family: 'Nunito', 'Muli', Tahoma, sans-serif !important;
+				margin: 0;
+				padding: 0;
+				color: #1a1a1a;
+			}
+
+			/* Override base style.css white text defaults */
+			strong, b { color: inherit !important; }
+			a { border-bottom: none !important; }
+			a:hover { color: inherit !important; }
+			p { color: inherit; }
+			h1, h2, h3, h4 { color: #1a1a1a !important; font-family: 'Nunito', 'Muli', Tahoma, sans-serif !important; }
+
+			/* ── Hero Section ────────────────────────────── */
+			.hero {
+				background: linear-gradient(160deg, #1a1a1a 0%, #2d2d2d 60%, #3a3520 100%);
+				padding: 3em 2em 2.5em;
+				text-align: center;
+				position: relative;
+				overflow: hidden;
+			}
+			.hero::before {
+				content: '';
+				position: absolute;
+				top: -40%;
+				left: -30%;
+				width: 160%;
+				height: 180%;
+				background: radial-gradient(circle at 30% 40%, rgba(255,229,0,0.06) 0%, transparent 50%);
+				pointer-events: none;
+			}
+			.hero-inner {
+				max-width: 920px;
+				margin: 0 auto;
+				position: relative;
+				z-index: 1;
+			}
+			.hero-logo {
+				width: 64px;
+				height: 64px;
+				margin-bottom: 0.8em;
+				border-radius: 14px;
+			}
+			.hero h1 {
+				color: #ffffff !important;
+				font-size: 2.6em;
+				font-weight: 800;
+				margin-bottom: 0.1em;
+				letter-spacing: -0.01em;
+				line-height: 1.15;
+			}
+			.hero h1 span {
+				color: #ffe500;
+			}
+			.hero .tagline {
+				color: rgba(255,255,255,0.65);
+				font-size: 1.05em;
+				margin-bottom: 2em;
+				line-height: 1.6;
+				max-width: 520px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			/* ── Two-column hero layout ──────────────────── */
+			.hero-columns {
+				display: flex;
+				gap: 2.5em;
+				align-items: flex-start;
+				text-align: left;
+				max-width: 860px;
+				margin: 0 auto;
+			}
+			.hero-form-col {
+				flex: 1;
+				min-width: 300px;
+			}
+			.hero-info-col {
+				flex: 1;
+				min-width: 280px;
+				padding-top: 0.5em;
+			}
+
+			/* ── Signup Card (bubble style) ──────────────── */
+			.signup-card {
+				background: #ffffff;
+				border-radius: 20px;
+				padding: 1.8em 1.6em 1.5em;
+				box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);
+			}
+			.signup-card h2 {
+				color: #1a1a1a !important;
+				font-size: 1.35em;
+				font-weight: 800;
+				margin-bottom: 0.1em;
+				text-align: center;
+			}
+			.signup-card .spid-explainer {
+				color: #888;
+				font-size: 0.75em;
+				line-height: 1.5;
+				margin-bottom: 1.2em;
+				text-align: center;
+			}
+			.signup-card .spid-explainer strong {
+				color: #555;
+			}
+			/* Inputs — underline style like popup */
+			.signup-card input[type="text"],
+			.signup-card input[type="email"] {
+				display: block;
+				width: 100%;
+				background: transparent !important;
+				color: #1a1a1a !important;
+				border: none !important;
+				border-bottom: 2px solid #ffeb3b !important;
+				border-radius: 0 !important;
+				padding: 10px 4px !important;
+				font-size: 14px !important;
+				margin-bottom: 10px;
+				box-shadow: none !important;
+				line-height: 1.4 !important;
+				font-family: 'Nunito', 'Muli', Tahoma, sans-serif;
+				transition: border-color 0.2s;
+				outline: none;
+			}
+			.signup-card input::placeholder {
+				color: #bbb !important;
+				font-size: 13px;
+			}
+			.signup-card input:focus {
+				border-bottom-color: #fdd835 !important;
+				box-shadow: none !important;
+			}
+			/* CTA Button — dark with yellow hover, rounded like popup */
+			.signup-btn {
+				width: 100%;
+				padding: 13px !important;
+				font-size: 15px !important;
+				font-weight: 700 !important;
+				background: #1a1a1a !important;
+				color: #fff !important;
+				border: none !important;
+				border-radius: 16px !important;
+				cursor: pointer;
+				margin-top: 8px;
+				letter-spacing: 0.3px;
+				text-transform: none !important;
+				line-height: 1.4 !important;
+				font-family: 'Nunito', 'Muli', Tahoma, sans-serif;
+				transition: all 0.2s;
+				text-align: center;
+			}
+			.signup-btn:hover {
+				background: #ffdd00 !important;
+				color: #000 !important;
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(255,221,0,0.4);
+			}
+			.signup-btn:active { transform: translateY(0); }
+			.signup-btn:after { display: none !important; }
+			.signup-btn:disabled { opacity: 0.5; cursor: default; transform: none; box-shadow: none; }
+			/* Messages */
+			.signup-msg {
+				margin-top: 8px;
+				font-size: 0.75em;
+				min-height: 1.2em;
+				line-height: 1.4;
+				text-align: center;
+			}
+			.signup-footer {
+				margin-top: 8px;
+				font-size: 0.75em;
+				color: #999;
+				text-align: center;
+			}
+			.signup-footer a {
+				color: #b0a060;
+				text-decoration: none;
+				font-weight: 600;
+			}
+			.signup-footer a:hover { color: #d4a800; text-decoration: underline; }
+			/* Recovery code input */
+			.recover-code-input {
+				text-align: center !important;
+				letter-spacing: 8px !important;
+				font-weight: 700 !important;
+				font-size: 20px !important;
+			}
+
+			/* ── Success state ───────────────────────────── */
+			.signup-success {
+				padding: 1.5em 0;
+				text-align: center;
+			}
+			.signup-success .success-icon {
+				width: 52px;
+				height: 52px;
+				background: #4caf50;
+				border-radius: 50%;
+				margin: 0 auto 0.7em;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.signup-success .success-icon svg {
+				width: 26px;
+				height: 26px;
+				fill: #fff;
+			}
+			.signup-success h3 {
+				color: #1a1a1a !important;
+				font-size: 1.2em;
+				font-weight: 700;
+				margin-bottom: 0.3em;
+			}
+			.signup-success p {
+				color: #666;
+				font-size: 0.8em;
+				line-height: 1.5;
+			}
+			.signup-success .spid-badge {
+				display: inline-block;
+				background: #fffbe6;
+				border: 2px solid #ffdd00;
+				border-radius: 14px;
+				padding: 5px 18px;
+				font-weight: 700;
+				font-size: 1em;
+				color: #1a1a1a;
+				margin: 0.5em 0;
+			}
+
+			/* ── Hero info bullets ───────────────────────── */
+			.hero-benefits {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.hero-benefits li {
+				color: rgba(255,255,255,0.85);
+				font-size: 0.88em;
+				line-height: 1.5;
+				margin-bottom: 1.1em;
+				padding-left: 2.4em;
+				position: relative;
+			}
+			.hero-benefits li .b-icon {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 1.8em;
+				height: 1.8em;
+				background: rgba(255,229,0,0.12);
+				border-radius: 10px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 0.9em;
+			}
+			.hero-benefits li strong {
+				color: #fff !important;
+				font-weight: 700;
+			}
+
+			/* ── Section base ────────────────────────────── */
+			.sp-section {
+				padding: 3em 2em;
+				max-width: 880px;
+				margin: 0 auto;
+			}
+			.sp-section h2 {
+				font-size: 1.8em;
+				font-weight: 800;
+				margin-bottom: 0.15em;
+				color: #1a1a1a !important;
+			}
+			.sp-section .section-sub {
+				color: #888;
+				font-size: 0.88em;
+				margin-bottom: 1.8em;
+				line-height: 1.5;
+			}
+
+			/* ── Bubble Card (reusable) ──────────────────── */
+			.bubble-card {
+				background: #ffffff;
+				border-radius: 20px;
+				padding: 1.8em 1.5em;
+				box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.03);
+				text-align: center;
+			}
+			.bubble-card .card-icon {
+				width: 48px;
+				height: 48px;
+				margin: 0 auto 0.7em;
+				background: #fffbe6;
+				border-radius: 14px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.4em;
+			}
+			.bubble-card h3 {
+				font-size: 0.9em;
+				font-weight: 700;
+				color: #1a1a1a;
+				margin-bottom: 0.3em;
+			}
+			.bubble-card p {
+				color: #888;
+				font-size: 0.78em;
+				line-height: 1.5;
+			}
+
+			/* ── Sticky Pin Video (top-right) ────────────── */
+			.pin-video-float {
+				position: fixed;
+				top: 20px;
+				right: 20px;
+				z-index: 1000;
+				width: 280px;
+				background: #1a1a1a;
+				border-radius: 16px;
+				overflow: hidden;
+				box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.08);
+				transition: opacity 0.3s, transform 0.3s;
+			}
+			.pin-video-float video {
+				width: 100%;
+				display: block;
+			}
+			.pin-video-float .video-label {
+				padding: 8px 12px;
+				font-size: 0.7em;
+				font-weight: 700;
+				color: #fff;
+				text-align: center;
+				background: #1a1a1a;
+				line-height: 1.3;
+			}
+			.pin-video-float .video-label span {
+				color: #ffdd00;
+			}
+
+			/* ── Demo / Getting Started ──────────────────── */
+			.demo-section {
+				background: #ffffff;
+			}
+			.demo-steps {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				counter-reset: step;
+			}
+			.demo-steps li {
+				counter-increment: step;
+				margin-bottom: 1.4em;
+				padding-left: 3em;
+				position: relative;
+				line-height: 1.5;
+			}
+			.demo-steps li::before {
+				content: counter(step);
+				position: absolute;
+				left: 0;
+				top: 0.1em;
+				width: 2em;
+				height: 2em;
+				background: #ffdd00;
+				border-radius: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 800;
+				font-size: 0.85em;
+				color: #1a1a1a;
+			}
+			.demo-steps li strong {
+				color: #1a1a1a !important;
+				font-weight: 700;
+				display: block;
+				font-size: 0.92em;
+				margin-bottom: 0.1em;
+			}
+			.demo-steps li span {
+				color: #777;
+				font-size: 0.8em;
+			}
+
+			/* ── How It Works ────────────────────────────── */
+			.how-section {
+				background: #f5f4ef;
+			}
+			.how-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.2em;
+			}
+
+			/* ── Referral Section ────────────────────────── */
+			.referral-section {
+				background: linear-gradient(160deg, #1a1a1a 0%, #2a2520 100%);
+				text-align: center;
+			}
+			.referral-section h2 {
+				color: #fff !important;
+			}
+			.referral-section .section-sub {
+				color: rgba(255,255,255,0.55);
+			}
+			.referral-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.2em;
+				max-width: 680px;
+				margin: 0 auto;
+			}
+			.referral-card {
+				background: rgba(255,255,255,0.06);
+				border-radius: 20px;
+				padding: 1.5em 1.2em;
+				text-align: center;
+			}
+			.referral-card .ref-num {
+				width: 38px;
+				height: 38px;
+				background: #ffdd00;
+				border-radius: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 800;
+				font-size: 0.95em;
+				color: #1a1a1a;
+				margin: 0 auto 0.6em;
+			}
+			.referral-card h3 {
+				color: #fff !important;
+				font-size: 0.85em;
+				font-weight: 700;
+				margin-bottom: 0.3em;
+			}
+			.referral-card p {
+				color: rgba(255,255,255,0.55);
+				font-size: 0.73em;
+				line-height: 1.5;
+			}
+			.referral-note {
+				color: rgba(255,255,255,0.4);
+				font-size: 0.73em;
+				margin-top: 1.5em;
+				font-style: italic;
+			}
+
+			/* ── FAQ Section ─────────────────────────────── */
+			.faq-section {
+				background: #ffffff;
+			}
+			.faq-list {
+				max-width: 680px;
+				margin: 0 auto;
+			}
+			.faq-item {
+				background: #f9f8f3;
+				border-radius: 16px;
+				margin-bottom: 8px;
+				overflow: hidden;
+			}
+			.faq-q {
+				font-weight: 700;
+				font-size: 0.88em;
+				color: #1a1a1a;
+				cursor: pointer;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				user-select: none;
+				padding: 1em 1.2em;
+				transition: background 0.15s;
+			}
+			.faq-q:hover {
+				background: rgba(0,0,0,0.02);
+			}
+			.faq-q::after {
+				content: '+';
+				font-size: 1.2em;
+				color: #ccc;
+				font-weight: 400;
+				flex-shrink: 0;
+				margin-left: 1em;
+				transition: transform 0.2s;
+			}
+			.faq-item.open .faq-q::after {
+				content: '\2212';
+				color: #999;
+			}
+			.faq-a {
+				color: #777;
+				font-size: 0.8em;
+				line-height: 1.6;
+				max-height: 0;
+				overflow: hidden;
+				transition: max-height 0.3s ease, padding 0.3s ease;
+				padding: 0 1.4em;
+			}
+			.faq-item.open .faq-a {
+				max-height: 300px;
+				padding: 0 1.4em 1.2em;
+			}
+
+			/* ── Footer ──────────────────────────────────── */
+			.sp-footer {
+				background: #1a1a1a;
+				text-align: center;
+				padding: 2em;
+			}
+			.sp-footer p {
+				color: rgba(255,255,255,0.35);
+				font-size: 0.73em;
+			}
+			.sp-footer a {
+				color: #ffdd00 !important;
+				text-decoration: none;
+			}
+			.sp-footer a:hover { text-decoration: underline; }
+
+			/* ── Responsive ──────────────────────────────── */
+			@media screen and (max-width: 768px) {
+				.pin-video-float {
+					width: 180px;
+					top: 10px;
+					right: 10px;
+				}
+				.pin-video-float .video-label {
+					font-size: 0.6em;
+					padding: 6px 8px;
+				}
+				.hero { padding: 2.5em 1.5em 2em; }
+				.hero-columns {
+					flex-direction: column;
+					text-align: center;
+				}
+				.hero-form-col {
+					min-width: auto;
+					order: 1;
+				}
+				.hero-info-col {
+					order: 2;
+					padding-top: 1.5em;
+				}
+				.hero-benefits li { text-align: left; }
+				.hero h1 { font-size: 1.8em; }
+				.demo-grid { grid-template-columns: 1fr; }
+				.how-grid,
+				.referral-grid {
+					grid-template-columns: 1fr;
+					max-width: 360px;
+					margin: 0 auto;
+				}
+				.sp-section { padding: 2.5em 1.5em; }
+			}
+		</style>
+	</head>
+	<body>
+
+		<!-- Sidebar (hidden via CSS, kept for localisation compat) -->
+		<section id="sidebar">
+			<div class="inner">
+				<nav>
+					<ul>
+						<li><a href="https://sharepass.app" id="sideBarWelcome">Welcome to SharePass</a></li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- Sticky floating pin tutorial video — always visible top-right -->
+		<div class="pin-video-float">
+			<video autoplay loop muted disablePictureInPicture controlslist="nofullscreen nodownload noremoteplayback">
+				<source src="PinVideo.mp4" type="video/mp4">
+			</video>
+			<div class="video-label">&#128205; Pin SharePass to your toolbar<br><span>Click the puzzle icon above</span></div>
+		</div>
+
+		<div id="wrapper">
+
+			<!-- ═══════════════════════════════════════════
+			     HERO — Registration CTA
+			     ═══════════════════════════════════════════ -->
+			<section class="hero">
+				<div class="hero-inner">
+					<img src="../../icons/icon-modern.svg" alt="SharePass" class="hero-logo" />
+					<h1>Share Accounts.<br><span>Not Passwords.</span></h1>
+					<p class="tagline">Let friends and family use your streaming, shopping, and other accounts without ever sharing your password.</p>
+
+					<div class="hero-columns">
+						<div class="hero-form-col">
+							<div class="signup-card">
+								<h2>Create Your SPID</h2>
+								<p class="spid-explainer">
+									Your <strong>SPID</strong> (SharePass ID) is your unique username. Friends use it to share accounts with you. No password needed.
+								</p>
+
+								<div id="welcome-signup-form">
+									<input type="text" id="welcome-username" placeholder="Pick a username (e.g. JohnDoe99)" maxlength="20" autocomplete="off" />
+									<input type="email" id="welcome-email" placeholder="Email address (for account recovery)" />
+									<input type="text" id="welcome-referrer" placeholder="Referral code (optional)" autocomplete="off" />
+									<button class="signup-btn" id="welcome-signup-btn">Create My Account</button>
+									<p class="signup-msg" id="welcome-signup-msg"></p>
+									<p class="signup-footer">Already have a SPID? <a href="#" id="welcome-recover-link">Recover your account</a></p>
+								</div>
+
+								<div id="welcome-recovery-form" style="display: none;">
+									<p class="spid-explainer">Enter the email you signed up with and we'll send you a 6-digit recovery code.</p>
+									<input type="email" id="welcome-recover-email" placeholder="Email address" />
+									<div id="welcome-recover-code-section" style="display: none;">
+										<input type="text" id="welcome-recover-code" class="recover-code-input" placeholder="000000" maxlength="6" autocomplete="off" />
+									</div>
+									<button class="signup-btn" id="welcome-recover-btn">Send Recovery Code</button>
+									<p class="signup-msg" id="welcome-recover-msg"></p>
+									<p class="signup-footer"><a href="#" id="welcome-back-to-signup">Back to Sign Up</a></p>
+								</div>
+
+								<!-- Success state -->
+								<div id="welcome-signup-success" style="display: none;" class="signup-success">
+									<div class="success-icon">
+										<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+									</div>
+									<h3>Welcome to SharePass!</h3>
+									<div class="spid-badge" id="welcome-success-spid"></div>
+									<p>Your account is ready. Click the <strong style="background:#ffdd00; padding: 1px 5px; border-radius: 3px; color: #1a1a1a;">S</strong> icon in your browser toolbar to start sharing.</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="hero-info-col">
+							<ul class="hero-benefits">
+								<li>
+									<span class="b-icon">&#128274;</span>
+									<strong>Your password stays secret</strong><br>
+									Share access through encrypted session tokens. The password never leaves your device.
+								</li>
+								<li>
+									<span class="b-icon">&#9201;</span>
+									<strong>Time-limited access</strong><br>
+									You control how long access lasts: 4 hours, 1 day, 7 days, or 2 weeks.
+								</li>
+								<li>
+									<span class="b-icon">&#128272;</span>
+									<strong>End-to-end encrypted</strong><br>
+									Military-grade NaCl encryption. Only the recipient can decrypt the session.
+								</li>
+								<li>
+									<span class="b-icon">&#9889;</span>
+									<strong>Works in seconds</strong><br>
+									No apps to install. No complex setup. Just pick a friend and share.
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ═══════════════════════════════════════════
+			     GETTING STARTED — Demo + Steps
+			     ═══════════════════════════════════════════ -->
+			<section class="demo-section">
+				<div class="sp-section">
+					<h2 id="welcomeGetStartedHeader">Getting Started</h2>
+					<p class="section-sub" id="welcomeGetStartedText">From setup to sharing your first account, you'll be a pro in seconds.</p>
+
+					<div>
+						<ol class="demo-steps">
+							<li>
+								<strong id="welcomeStep1Header">Pin SharePass</strong>
+								<span id="welcomeStep1Text">Click the puzzle icon in Chrome and pin SharePass so you never miss a notification.</span>
+							</li>
+							<li>
+								<strong id="welcomeStep2Header">Sign Up with a Username</strong>
+								<span id="welcomeStep2Text">Click the <strong style="background:#ffdd00; padding: 0 4px; border-radius: 4px; color: #1a1a1a;">S</strong> icon to launch SharePass and choose your SPID.</span>
+							</li>
+							<li>
+								<strong id="welcomeStep3Header">Share Your First Account</strong>
+								<span id="welcomeStep3Text">Log into any site, click Share, pick a friend, and choose a duration. That's it!</span>
+							</li>
+							<li>
+								<strong id="welcomeStep4Header">Rate Your Experience</strong>
+								<span id="welcomeStep4Text">Enjoying SharePass? Leave us a <a style="color: #b0a060; text-decoration: underline;" href="https://chrome.google.com/webstore/detail/sharepass-share-accounts/ogobpofhpaediomejphdlbljncngeggl">review</a>. It really helps!</span>
+							</li>
+						</ol>
+					</div>
+				</div>
+			</section>
+
+			<!-- ═══════════════════════════════════════════
+			     HOW IT WORKS
+			     ═══════════════════════════════════════════ -->
+			<section class="how-section">
+				<div class="sp-section">
+					<h2>How It Works</h2>
+					<p class="section-sub">SharePass uses encrypted session tokens so your password never leaves your device.</p>
+
+					<div class="how-grid">
+						<div class="bubble-card">
+							<div class="card-icon">&#128100;</div>
+							<h3>Log In Normally</h3>
+							<p>Sign into any website as you normally would. Netflix, Spotify, Disney+, anything.</p>
+						</div>
+						<div class="bubble-card">
+							<div class="card-icon">&#128272;</div>
+							<h3>Encrypt & Share</h3>
+							<p>SharePass captures your session cookies, encrypts them with your friend's public key, and sends them securely.</p>
+						</div>
+						<div class="bubble-card">
+							<div class="card-icon">&#9989;</div>
+							<h3>Friend Gets Access</h3>
+							<p>Your friend's extension decrypts the session and logs them in. No password ever revealed.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ═══════════════════════════════════════════
+			     REFERRAL PROGRAM
+			     ═══════════════════════════════════════════ -->
+			<section class="referral-section">
+				<div class="sp-section">
+					<h2>Referral Program</h2>
+					<p class="section-sub">Love SharePass? Share it with friends and earn rewards together.</p>
+
+					<div class="referral-grid">
+						<div class="referral-card">
+							<div class="ref-num">1</div>
+							<h3>Share Your SPID</h3>
+							<p>Give your SPID to friends. They enter it as a referral code when they sign up.</p>
+						</div>
+						<div class="referral-card">
+							<div class="ref-num">2</div>
+							<h3>Friends Join</h3>
+							<p>When they create their account with your SPID as the referral, you both get credited.</p>
+						</div>
+						<div class="referral-card">
+							<div class="ref-num">3</div>
+							<h3>Earn Rewards</h3>
+							<p>Build up referrals and unlock SharePass+ benefits like longer sharing durations and more.</p>
+						</div>
+					</div>
+
+					<p class="referral-note">Referral rewards are tracked in your SharePass settings. The more friends you invite, the more you earn.</p>
+				</div>
+			</section>
+
+			<!-- ═══════════════════════════════════════════
+			     FAQ
+			     ═══════════════════════════════════════════ -->
+			<section class="faq-section">
+				<div class="sp-section">
+					<h2>Frequently Asked Questions</h2>
+					<p class="section-sub">Everything you need to know about SharePass.</p>
+
+					<div class="faq-list">
+						<div class="faq-item">
+							<div class="faq-q">Is my password safe?</div>
+							<div class="faq-a">Absolutely. SharePass never sees, stores, or transmits your password. It shares encrypted session cookies, which are temporary access tokens that expire automatically. Your password stays on your device at all times.</div>
+						</div>
+						<div class="faq-item">
+							<div class="faq-q">What is a SPID?</div>
+							<div class="faq-a">SPID stands for SharePass ID. It's your unique username on SharePass, like a handle that your friends use to find you and share accounts with you. You choose it when you sign up.</div>
+						</div>
+						<div class="faq-item">
+							<div class="faq-q">Which websites work with SharePass?</div>
+							<div class="faq-a">SharePass works with virtually any website that uses cookie-based sessions, including Netflix, Disney+, Spotify, Amazon Prime, Hulu, and thousands more. If you can log in with a browser, SharePass can share it.</div>
+						</div>
+						<div class="faq-item">
+							<div class="faq-q">How long does shared access last?</div>
+							<div class="faq-a">You choose the duration when sharing: 4 hours, 1 day, 7 days, or 2 weeks. After the time expires, access is automatically revoked. You can also revoke access manually at any time.</div>
+						</div>
+						<div class="faq-item">
+							<div class="faq-q">Can the person I share with change my password?</div>
+							<div class="faq-a">No. SharePass shares a session cookie, not your credentials. The recipient is logged in as you but cannot see or change your password, email, or account settings on most platforms.</div>
+						</div>
+						<div class="faq-item">
+							<div class="faq-q">Is SharePass free?</div>
+							<div class="faq-a">Yes! SharePass is completely free to use. SharePass+ (our premium tier) offers additional features like longer sharing durations and priority support.</div>
+						</div>
+						<div class="faq-item">
+							<div class="faq-q">I already had an account but lost access. What do I do?</div>
+							<div class="faq-a">Use the "Recover your account" link in the sign-up form above. Enter the email you used when you created your SPID, and we'll send you a recovery code to restore your account.</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ═══════════════════════════════════════════
+			     FOOTER
+			     ═══════════════════════════════════════════ -->
+			<footer class="sp-footer">
+				<p>&copy; 2026 <a href="https://sharepass.app">SharePass</a>. All rights reserved.</p>
+			</footer>
+
+		</div>
+
+		<script src="welcome.js"></script>
+	</body>
+</html>

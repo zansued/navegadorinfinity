@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinity AI - Painel Administrador</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="logo-section">
+        <h1>Infinity AI <span style="font-size: 1rem; vertical-align: middle; padding: 4px 8px; border-radius: 6px; background: var(--accent-blue); color: white;">Admin</span></h1>
+        <p>Gerenciamento de Perfis de Navegação Dinâmicos</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary btn-sm" id="btn-add-profile">➕ Novo Perfil</button>
+        <a href="index.html" class="btn btn-secondary btn-sm" style="margin-left: 10px;">Voltar ao Hub</a>
+      </div>
+    </header>
+
+    <!-- Grid de perfis com opções administrativas -->
+    <main>
+      <div id="loading-spinner" class="spinner"></div>
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-state-icon">⚙️</div>
+        <p>Nenhum perfil cadastrado. Clique em "Novo Perfil" para criar.</p>
+      </div>
+      <div id="profiles-grid" class="profiles-grid"></div>
+    </main>
+  </div>
+
+  <!-- Modal para Criar / Editar Perfil -->
+  <div id="profile-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="modal-title" class="modal-title">Novo Perfil</h2>
+        <button id="modal-close-btn" class="modal-close">&times;</button>
+      </div>
+      <form id="profile-form">
+        <input type="hidden" id="profile-spid">
+        <div class="form-group">
+          <label for="profile-name">Nome do Perfil</label>
+          <input type="text" id="profile-name" required placeholder="Ex: Ninja Hub, Grok, Conta 01">
+        </div>
+        <div class="form-group">
+          <label for="profile-url">URL de Acesso</label>
+          <input type="url" id="profile-url" required placeholder="https://claude.ai">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="profile-mode">Modo de Conexão</label>
+            <select id="profile-mode">
+              <option value="proxy">Proxy Ativo</option>
+              <option value="direct">Conexão Direta</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="profile-custom-spid">Sync ID (SPID)</label>
+            <input type="text" id="profile-custom-spid" placeholder="Gerado automaticamente se vazio" title="Se deixado em branco, o sistema gerará um ID único automaticamente.">
+          </div>
+        </div>
+        <div class="form-group" id="proxy-settings-group">
+          <label for="profile-proxy">Configuração do Proxy</label>
+          <input type="text" id="profile-proxy" placeholder="host:port:username:password (deixe vazio para usar padrão)">
+          <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">
+            Exemplo: 147.79.87.117:3128:infinity:Session2026!
+          </span>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px;">
+          <button type="button" id="btn-cancel-modal" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" class="btn btn-success">Salvar Perfil</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // Inicializa o cliente do Supabase
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const emptyState = document.getElementById('empty-state');
+    const profilesGrid = document.getElementById('profiles-grid');
+    const toast = document.getElementById('toast');
+    
+    // Modal e Form Elements
+    const profileModal = document.getElementById('profile-modal');
+    const profileForm = document.getElementById('profile-form');
+    const modalTitle = document.getElementById('modal-title');
+    const profileSpid = document.getElementById('profile-spid');
+    const profileName = document.getElementById('profile-name');
+    const profileUrl = document.getElementById('profile-url');
+    const profileMode = document.getElementById('profile-mode');
+    const profileCustomSpid = document.getElementById('profile-custom-spid');
+    const profileProxy = document.getElementById('profile-proxy');
+    const proxySettingsGroup = document.getElementById('proxy-settings-group');
+    
+    const btnAddProfile = document.getElementById('btn-add-profile');
+    const btnCancelModal = document.getElementById('btn-cancel-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    let allProfiles = [];
+    let isEditing = false;
+
+    // Toggle exibição das configurações de proxy baseado no modo
+    profileMode.addEventListener('change', (e) => {
+      if (e.target.value === 'direct') {
+        proxySettingsGroup.style.opacity = '0.5';
+        profileProxy.disabled = true;
+      } else {
+        proxySettingsGroup.style.opacity = '1';
+        profileProxy.disabled = false;
+      }
+    });
+
+    // Carrega perfis do Supabase
+    async function loadProfiles() {
+      try {
+        loadingSpinner.style.display = 'block';
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .order('name', { ascending: true });
+
+        if (error) throw error;
+
+        allProfiles = data || [];
+        renderProfiles(allProfiles);
+      } catch (err) {
+        showToast("Erro ao carregar perfis: " + err.message, "error");
+        loadingSpinner.style.display = 'none';
+        emptyState.style.display = 'block';
+      }
+    }
+
+    // Renderiza os perfis no Grid
+    function renderProfiles(profiles) {
+      loadingSpinner.style.display = 'none';
+      profilesGrid.innerHTML = '';
+
+      if (profiles.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      profiles.forEach(profile => {
+        const card = document.createElement('div');
+        card.className = 'profile-card';
+
+        const hasProxy = profile.mode === 'proxy';
+        let proxyDisplay = 'Sem Proxy';
+        if (hasProxy && profile.proxy) {
+          proxyDisplay = profile.proxy;
+        }
+
+        card.innerHTML = `
+          <div class="profile-header">
+            <div class="profile-name">${escapeHTML(profile.name)}</div>
+            <div class="profile-url">
+              <svg class="profile-url-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              <span>${escapeHTML(profile.url)}</span>
+            </div>
+          </div>
+          <div class="profile-details">
+            <div class="detail-row">
+              <span class="detail-label">Status</span>
+              <span class="badge ${hasProxy ? 'badge-proxy' : 'badge-direct'}">${hasProxy ? 'Proxy' : 'Direto'}</span>
+            </div>
+            <div class="detail-row" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="detail-label">SPID (Sync ID)</span>
+              <span class="detail-value" style="font-family: monospace; font-size: 0.75rem; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; width: 100%; word-break: break-all;">${escapeHTML(profile.spid)}</span>
+            </div>
+            <div class="detail-row" style="margin-top: 8px;">
+              <span class="detail-label">Proxy</span>
+              <span class="detail-value" style="font-size: 0.75rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${escapeHTML(proxyDisplay)}">${escapeHTML(proxyDisplay)}</span>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-secondary btn-sm btn-edit" data-spid="${profile.spid}" style="flex: 1;">Editar</button>
+            <button class="btn btn-danger btn-sm btn-delete" data-spid="${profile.spid}">Excluir</button>
+          </div>
+        `;
+
+        profilesGrid.appendChild(card);
+      });
+
+      // Eventos dos botões Editar e Excluir
+      document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const spid = e.target.getAttribute('data-spid');
+          openEditModal(spid);
+        });
+      });
+
+      document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const spid = e.target.getAttribute('data-spid');
+          deleteProfile(spid);
+        });
+      });
+    }
+
+    // Abre modal para criação
+    btnAddProfile.addEventListener('click', () => {
+      isEditing = false;
+      modalTitle.textContent = "Criar Novo Perfil";
+      profileSpid.value = '';
+      profileForm.reset();
+      profileMode.value = 'proxy';
+      profileMode.dispatchEvent(new Event('change'));
+      profileCustomSpid.disabled = false;
+      profileCustomSpid.placeholder = "Gerado automaticamente se vazio";
+      profileModal.classList.add('active');
+    });
+
+    // Fecha modal
+    function closeModal() {
+      profileModal.classList.remove('active');
+    }
+    btnCancelModal.addEventListener('click', closeModal);
+    modalCloseBtn.addEventListener('click', closeModal);
+
+    // Abre modal para edição
+    function openEditModal(spid) {
+      const profile = allProfiles.find(p => p.spid === spid);
+      if (!profile) return;
+
+      isEditing = true;
+      modalTitle.textContent = "Editar Perfil";
+      profileSpid.value = profile.spid;
+      profileName.value = profile.name;
+      profileUrl.value = profile.url;
+      profileMode.value = profile.mode || 'proxy';
+      profileMode.dispatchEvent(new Event('change'));
+      
+      profileCustomSpid.value = profile.spid;
+      profileCustomSpid.disabled = true; // Não permite alterar a chave primária
+      
+      profileProxy.value = profile.proxy || '';
+
+      profileModal.classList.add('active');
+    }
+
+    // Grava perfil (Cria ou Atualiza) no Supabase
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = profileName.value.trim();
+      const url = profileUrl.value.trim();
+      const mode = profileMode.value;
+      const proxy = mode === 'proxy' ? profileProxy.value.trim() : '';
+      
+      let spid = profileSpid.value;
+      
+      if (!isEditing) {
+        // Gera um SPID se não foi fornecido pelo usuário
+        const customSpidVal = profileCustomSpid.value.trim();
+        if (customSpidVal) {
+          spid = customSpidVal;
+        } else {
+          const randomHex = Math.random().toString(16).substring(2, 10);
+          const formattedName = name.toLowerCase().replace(/[^a-z0-9]/g, '_').substring(0, 15);
+          spid = `inf_${formattedName}_${randomHex}`;
+        }
+      }
+
+      const payload = { spid, name, url, proxy, mode };
+
+      try {
+        const { error } = await supabase
+          .from('profiles')
+          .upsert([payload], { onConflict: 'spid' });
+
+        if (error) throw error;
+
+        showToast(isEditing ? "Perfil atualizado com sucesso!" : "Perfil criado com sucesso!");
+        closeModal();
+        loadProfiles();
+      } catch (err) {
+        showToast("Erro ao gravar perfil: " + err.message, "error");
+      }
+    });
+
+    // Exclui perfil
+    async function deleteProfile(spid) {
+      const profile = allProfiles.find(p => p.spid === spid);
+      if (!profile) return;
+
+      const confirmDelete = confirm(`Deseja realmente excluir o perfil "${profile.name}"?`);
+      if (!confirmDelete) return;
+
+      try {
+        const { error } = await supabase
+          .from('profiles')
+          .delete()
+          .eq('spid', spid);
+
+        if (error) throw error;
+
+        showToast("Perfil removido com sucesso!");
+        loadProfiles();
+      } catch (err) {
+        showToast("Erro ao excluir perfil: " + err.message, "error");
+      }
+    }
+
+    // Função de Toast
+    function showToast(message, type = "success") {
+      toast.textContent = message;
+      toast.className = `toast active ${type}`;
+      setTimeout(() => {
+        toast.className = 'toast';
+      }, 4000);
+    }
+
+    // Escape de HTML simples para segurança
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // Carrega perfis na inicialização
+    window.addEventListener('DOMContentLoaded', loadProfiles);
+  </script>
+</body>
+</html>

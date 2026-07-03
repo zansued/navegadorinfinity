@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS / IDE
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Compilação e Distribuição
+build/
+dist/
+*.spec
+*.zip
+*.exe
+*.exe.old
+
+# Binários do Chrome e Perfis de Usuário
+chrome-bin/
+chrome-bin-v129/
+profiles/
+
+# Logs e arquivos de depuração
+*.log
+debug_paths.txt
+
+# Arquivos e chaves sensíveis
+admin.key

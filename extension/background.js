@@ -202,7 +202,11 @@ function refreshToken() {
 function openWebSocket() {
   // 1. Roda a busca inicial de sessões pendentes via REST HTTP imediatamente
   apiHandler.getPendingSessions(currentSPID, function (err, sessions) {
-    if (!err && sessions && sessions.length > 0) {
+    if (err) {
+      logDebug(`[Boot] Erro ao buscar sessoes pendentes do Supabase: ${String(err)}`);
+      return;
+    }
+    if (sessions && sessions.length > 0) {
       logDebug(`[Boot] Encontradas ${sessions.length} sessoes pendentes no Supabase no boot.`);
       sessions.forEach((session) => {
         logDebug("[Boot] Sessão pendente recuperada de: " + session.sender + " para o dominio: " + session.domain);
@@ -213,6 +217,8 @@ function openWebSocket() {
           session.publickey,
         );
       });
+    } else {
+      logDebug(`[Boot] Nenhuma sessao pendente encontrada no Supabase para o SPID: ${currentSPID}`);
     }
   });
 
@@ -1320,11 +1326,11 @@ let lastSavedSessionHashes = {};
 
 async function startAdminAutoSave() {
   if (CLIENT_MODE) {
-    console.log("Modo Cliente ativo. Auto-salvamento desativado.");
+    logDebug("[AutoSave] Modo Cliente ativo. Auto-salvamento desativado.");
     return;
   }
   
-  console.log("Iniciando rotina de auto-salvamento do Administrador...");
+  logDebug("[AutoSave] Iniciando rotina de auto-salvamento do Administrador...");
   
   setInterval(async () => {
     try {
@@ -1429,7 +1435,7 @@ async function startAdminAutoSave() {
               const pubKeyB64 = nacl.util.encodeBase64(key);
               
               // 8. Enviar direto ao Supabase para a ID do perfil correspondente
-              console.log(`[AutoSave] Enviando sessão atualizada para o domínio: ${domain} (SPID: ${currentSPID})`);
+              logDebug(`[AutoSave] Enviando sessão atualizada para o domínio: ${domain} (SPID: ${currentSPID})`);
               await websocketHandler.sendSession(currentSPID, encryptedMessage, pubKeyB64, domain, 525960);
               
               // Salva no cache local para a próxima comparação
@@ -1445,16 +1451,16 @@ async function startAdminAutoSave() {
                   priority: 1
                 });
               } catch (notifErr) {
-                console.warn("[AutoSave] Erro ao criar notificação visual:", notifErr);
+                logDebug(`[AutoSave] Erro ao criar notificação visual: ${notifErr.message}`);
               }
             }
           } catch (err) {
-            // Ignora falhas de parse de URL nas abas
+            logDebug(`[AutoSave] Erro de URL na aba: ${err.message}`);
           }
         }
       });
     } catch (e) {
-      console.error("Erro na rotina de auto-salvamento:", e);
+      logDebug(`[AutoSave] Erro na rotina de auto-salvamento: ${e.message}`);
     }
   }, 8000); // Executa a verificação a cada 8 segundos
 }

@@ -584,6 +584,7 @@ def run_profile_headless(key, is_client, no_ext=False, chrome_path=None):
     profile_root = os.path.join(PROFILES_DIR, key)
     user_data_path = os.path.join(profile_root, "user-data")
     extension_path = os.path.join(profile_root, "extension")
+    target_url = profile_data.get("url", "https://claude.ai")
     
     os.makedirs(user_data_path, exist_ok=True)
     
@@ -685,7 +686,6 @@ def run_profile_headless(key, is_client, no_ext=False, chrome_path=None):
             print(f"Erro ao iniciar proxy local: {e}")
             cmd.append(f"--proxy-server={host}:{port}")
         
-    target_url = profile_data.get("url", "https://claude.ai")
     if is_client:
         cmd.append(f"--app={target_url}")
     else:

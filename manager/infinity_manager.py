@@ -379,7 +379,8 @@ def copy_extension(src_dir, dest_dir):
         "icons",
         "interface",
         "fonts",
-        "_locales"
+        "_locales",
+        "Toolzbuy Secure Extension 4.1.0"
     ]
     
     for f in files_to_copy:

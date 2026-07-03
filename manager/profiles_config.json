@@ -96,5 +96,12 @@
         "proxy": "",
         "mode": "proxy",
         "spid": "inf_seaart_d1b5eb25"
+    },
+    "PREZI (Apresentação)": {
+        "name": "PREZI (Apresentação)",
+        "url": "https://supabase.techstorebrasil.com/rest/v1/profiles",
+        "proxy": "",
+        "mode": "proxy",
+        "spid": "inf_prezi_apresentação_b6d3bd84"
     }
 }

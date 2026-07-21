@@ -85,28 +85,47 @@ function WebSocketHandler() {
     console.log("Sending To:", name);
     if (name && name.length > 0) {
       try {
-        // Remove sessões anteriores idênticas de receptor/domínio para evitar acumular lixo no Supabase
-        await supabaseClient
+        const { data, error: selectErr } = await supabaseClient
           .from('sessions')
-          .delete()
+          .select('id')
           .eq('receiver', name)
           .eq('domain', domain);
-      } catch (delErr) {
-        console.error("Error cleaning old sessions:", delErr);
+          
+        if (!selectErr && data && data.length > 0) {
+          const { error: updateErr } = await supabaseClient
+            .from('sessions')
+            .update({
+              sender: currentSPID,
+              session_data: session_data,
+              publickey: publickey,
+              duration: duration
+            })
+            .eq('id', data[0].id);
+          if (updateErr) {
+            console.error("Error updating session in Supabase:", updateErr);
+          } else {
+            console.log("Session updated successfully for domain:", domain);
+          }
+        } else {
+          const { error: insertErr } = await supabaseClient
+            .from('sessions')
+            .insert([{
+              sender: currentSPID,
+              receiver: name,
+              session_data: session_data,
+              publickey: publickey,
+              domain: domain,
+              duration: duration
+            }]);
+          if (insertErr) {
+            console.error("Error inserting session to Supabase:", insertErr);
+          } else {
+            console.log("New session inserted successfully for domain:", domain);
+          }
+        }
+      } catch (err) {
+        console.error("Error in sendSession:", err);
       }
-
-      const { error } = await supabaseClient
-        .from('sessions')
-        .insert([{
-          sender: currentSPID,
-          receiver: name,
-          session_data: session_data,
-          publickey: publickey,
-          domain: domain,
-          duration: duration
-        }]);
-      if (error) {
-        console.error("Error sending session to Supabase:", error);
       }
     }
   };

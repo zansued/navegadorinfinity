@@ -44,6 +44,168 @@ def start_log_server():
         except Exception:
             port += 1
 
+def register_url_protocol():
+    """Registra o protocolo customizado infinity:// no Registro do Windows."""
+    try:
+        import winreg
+        if getattr(sys, 'frozen', False):
+            exe_path = f'"{os.path.abspath(sys.executable)}"'
+        else:
+            pythonw = os.path.join(os.path.dirname(sys.executable), "pythonw.exe")
+            if not os.path.exists(pythonw):
+                pythonw = sys.executable
+            script_path = os.path.abspath(__file__)
+            exe_path = f'"{pythonw}" "{script_path}"'
+            
+        protocol_key = r"Software\Classes\infinity"
+        with winreg.CreateKey(winreg.HKEY_CURRENT_USER, protocol_key) as key:
+            winreg.SetValue(key, "", winreg.REG_SZ, "URL:Infinity AI Protocol")
+            winreg.SetValueEx(key, "URL Protocol", 0, winreg.REG_SZ, "")
+            
+        command_key = r"Software\Classes\infinity\shell\open\command"
+        with winreg.CreateKey(winreg.HKEY_CURRENT_USER, command_key) as key:
+            winreg.SetValue(key, "", winreg.REG_SZ, f'{exe_path} --url "%1"')
+    except Exception as e:
+        print(f"Aviso ao registrar protocolo infinity://: {e}")
+
+def register_autostart():
+    """Registra a inicialização automática do agente silencioso no Windows."""
+    try:
+        import winreg
+        if getattr(sys, 'frozen', False):
+            exe_path = f'"{os.path.abspath(sys.executable)}" --silent-agent'
+        else:
+            pythonw = os.path.join(os.path.dirname(sys.executable), "pythonw.exe")
+            if not os.path.exists(pythonw):
+                pythonw = sys.executable
+            script_path = os.path.abspath(__file__)
+            exe_path = f'"{pythonw}" "{script_path}" --silent-agent'
+            
+        run_key = r"Software\Microsoft\Windows\CurrentVersion\Run"
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, run_key, 0, winreg.KEY_SET_VALUE) as key:
+            winreg.SetValueEx(key, "InfinityAIAgent", 0, winreg.REG_SZ, exe_path)
+    except Exception as e:
+        print(f"Aviso ao registrar auto-start: {e}")
+
+def handle_url_protocol_launch(url_str):
+    """Trata a inicialização via protocolo infinity://open?spid=..."""
+    try:
+        parsed = urllib.parse.urlparse(url_str)
+        query = urllib.parse.parse_qs(parsed.query)
+        spid = query.get("spid", [""])[0] or query.get("name", [""])[0] or query.get("key", [""])[0]
+        if not spid:
+            path = parsed.path.strip("/")
+            if path and path != "open":
+                spid = path
+            elif parsed.netloc and parsed.netloc != "open":
+                spid = parsed.netloc
+                
+        if spid:
+            run_profile_headless(spid, is_client=True)
+        else:
+            print(f"Não foi possível extrair o perfil da URL: {url_str}")
+    except Exception as e:
+        print(f"Erro ao processar URL do protocolo: {e}")
+
+def start_api_server(port=19999):
+    class APIHandler(http.server.BaseHTTPRequestHandler):
+        def do_OPTIONS(self):
+            self.send_response(200)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+            self.end_headers()
+
+        def send_json(self, status_code, data):
+            self.send_response(status_code)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
+
+        def do_GET(self):
+            parsed = urllib.parse.urlparse(self.path)
+            path = parsed.path.lower()
+            query = urllib.parse.parse_qs(parsed.query)
+            
+            if path in ["/", "/status"]:
+                self.send_json(200, {
+                    "status": "ok",
+                    "app": "Infinity AI Browser Agent",
+                    "version": "1.0.0"
+                })
+            elif path == "/profiles":
+                config_path = os.path.join(CURRENT_DIR, CONFIG_FILE)
+                profiles = {}
+                if os.path.exists(config_path):
+                    try:
+                        with open(config_path, "r", encoding="utf-8-sig") as f:
+                            profiles = json.load(f)
+                    except Exception:
+                        pass
+                self.send_json(200, {"success": True, "profiles": profiles})
+            elif path == "/open":
+                spid = query.get("spid", [""])[0] or query.get("name", [""])[0] or query.get("key", [""])[0]
+                if not spid:
+                    self.send_json(400, {"success": False, "error": "Parâmetro 'spid' ou 'name' é obrigatório."})
+                    return
+                
+                t = threading.Thread(
+                    target=run_profile_headless,
+                    args=(spid, True, False, None),
+                    daemon=True
+                )
+                t.start()
+                self.send_json(200, {
+                    "success": True,
+                    "message": f"Abrindo perfil '{spid}'...",
+                    "target": spid
+                })
+            else:
+                self.send_json(404, {"success": False, "error": "Endpoint não encontrado."})
+
+        def do_POST(self):
+            parsed = urllib.parse.urlparse(self.path)
+            path = parsed.path.lower()
+            if path == "/open":
+                content_len = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_len).decode("utf-8") if content_len > 0 else "{}"
+                try:
+                    payload = json.loads(body)
+                except Exception:
+                    payload = {}
+                spid = payload.get("spid") or payload.get("name") or payload.get("key")
+                if not spid:
+                    self.send_json(400, {"success": False, "error": "Campo 'spid' ou 'name' é obrigatório no JSON."})
+                    return
+                
+                t = threading.Thread(
+                    target=run_profile_headless,
+                    args=(spid, True, False, None),
+                    daemon=True
+                )
+                t.start()
+                self.send_json(200, {
+                    "success": True,
+                    "message": f"Abrindo perfil '{spid}'...",
+                    "target": spid
+                })
+            else:
+                self.send_json(404, {"success": False, "error": "Endpoint não encontrado."})
+
+        def log_message(self, format, *args):
+            return
+
+    for p in range(port, port + 10):
+        try:
+            httpd = socketserver.TCPServer(("127.0.0.1", p), APIHandler)
+            threading.Thread(target=httpd.serve_forever, daemon=True).start()
+            print(f"Servidor HTTP API do Infinity AI rodando em http://127.0.0.1:{p}")
+            break
+        except Exception:
+            continue
+
+
 # Cores do tema escuro neumórfico (Soft UI Slate)
 BG_COLOR = "#202225"          # Fundo principal neumórfico
 CARD_BG = "#2f3136"           # Fundo dos cards
@@ -62,6 +224,29 @@ DEFAULT_PROXY_PASS = "Session2026!"
 # Configurações do Supabase para Sincronização Dinâmica de Perfis
 SUPABASE_URL = "https://supabase.techstorebrasil.com"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE"
+
+# Carrega do arquivo externo se existir
+try:
+    import sys
+    if getattr(sys, 'frozen', False):
+        _proj_root = os.path.dirname(os.path.abspath(sys.executable))
+        _curr_dir = os.path.join(_proj_root, "manager")
+    else:
+        _curr_dir = os.path.dirname(os.path.abspath(__file__))
+        _proj_root = os.path.dirname(_curr_dir)
+        
+    for _path in [os.path.join(_proj_root, "supabase_config.json"), os.path.join(_curr_dir, "supabase_config.json")]:
+        if os.path.exists(_path):
+            with open(_path, "r", encoding="utf-8") as _f:
+                _cfg = json.load(_f)
+                if _cfg.get("SUPABASE_URL"):
+                    SUPABASE_URL = _cfg["SUPABASE_URL"]
+                if _cfg.get("SUPABASE_KEY"):
+                    SUPABASE_KEY = _cfg["SUPABASE_KEY"]
+            break
+except Exception as _e:
+    print(f"Erro ao ler supabase_config.json: {_e}")
+
 
 def supabase_request(url, method="GET", data=None, extra_headers=None):
     import urllib.request
@@ -444,6 +629,22 @@ def configure_extension_mode(extension_path, client_mode=True, spid=""):
         except Exception as e:
             print(f"Erro ao configurar manifest.json: {e}")
 
+    # 4. Configura supabaseConfig.js dinamicamente
+    supabase_config_path = os.path.join(extension_path, "interface", "lib", "supabaseConfig.js")
+    if os.path.exists(supabase_config_path):
+        try:
+            supabase_config_content = f"""// Gerado dinamicamente pelo gerenciador
+const SUPABASE_URL = '{SUPABASE_URL}';
+const SUPABASE_ANON_KEY = '{SUPABASE_KEY}';
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+"""
+            with open(supabase_config_path, "w", encoding="utf-8") as file:
+                file.write(supabase_config_content)
+        except Exception as e:
+            print(f"Erro ao configurar supabaseConfig.js: {e}")
+
+
 def disable_chrome_password_manager(user_data_path):
     default_dir = os.path.join(user_data_path, "Default")
     os.makedirs(default_dir, exist_ok=True)
@@ -551,7 +752,30 @@ def run_profile_headless(key, is_client, no_ext=False, chrome_path=None):
             print(f"Erro ao carregar config: {e}")
             return
             
-    if key not in profiles:
+    target_key = None
+    if key in profiles:
+        target_key = key
+    else:
+        for k, p in profiles.items():
+            if p.get("spid") == key or k == key or p.get("name") == key:
+                target_key = k
+                break
+                
+    if not target_key:
+        supabase_profiles = fetch_profiles_from_supabase()
+        if supabase_profiles:
+            for k, p in supabase_profiles.items():
+                if p.get("spid") == key or k == key or p.get("name") == key:
+                    profiles[k] = p
+                    target_key = k
+                    try:
+                        with open(config_path, "w", encoding="utf-8") as file:
+                            json.dump(profiles, file, indent=4, ensure_ascii=False)
+                    except Exception:
+                        pass
+                    break
+
+    if not target_key:
         try:
             with open(log_path, "a", encoding="utf-8") as lf:
                 lf.write(f"[{time.strftime('%H:%M:%S')}] Erro: Perfil '{key}' não encontrado no JSON keys: {list(profiles.keys())}\n")
@@ -560,7 +784,9 @@ def run_profile_headless(key, is_client, no_ext=False, chrome_path=None):
         print(f"Erro: Perfil '{key}' não encontrado nas configurações.")
         return
         
-    profile_data = profiles[key]
+    profile_data = profiles[target_key]
+    key = target_key
+
     
     # Localiza o Chrome
     if not chrome_path:
@@ -658,7 +884,7 @@ def run_profile_headless(key, is_client, no_ext=False, chrome_path=None):
         "--log-level=3",
         "--no-sandbox",
         "--disable-infobars",
-        "--test-type",
+        "--disable-blink-features=AutomationControlled",
         "--disable-features=OptimizationGuideModelDownloading,OptimizationGuide,Translate",
         "--disable-component-update",
         "--disk-cache-size=10485760",
@@ -1209,14 +1435,42 @@ class ProfileManagerApp:
                 self.style_neumorphic_button(btn_del, ACCENT_RED, "#c03538")
 
 if __name__ == "__main__":
-    # Inicia o servidor de logs locais
+    # 1. Inicia o servidor de logs locais
     start_log_server()
+    
+    # 2. Registra o protocolo infinity:// no Windows e a inicialização automática do agente silencioso
+    register_url_protocol()
+    register_autostart()
+    
+    # 3. Inicia o Servidor HTTP API Local na porta 19999 para permitir abertura em 1 clique direto pelo site hub.infinityclaude.pro
+    start_api_server(19999)
     
     # Determina se a chave de desenvolvedor/admin está presente
     admin_key_path1 = os.path.join(PROJECT_ROOT, "admin.key")
     admin_key_path2 = os.path.join(CURRENT_DIR, "admin.key")
     has_admin_key = os.path.exists(admin_key_path1) or os.path.exists(admin_key_path2)
     
+    # Tratamento de chamada via Protocolo URL personalizado (ex: infinity://open?spid=...)
+    if len(sys.argv) > 1 and sys.argv[1] in ["--url", "-url"]:
+        url_arg = sys.argv[2] if len(sys.argv) > 2 else ""
+        if url_arg:
+            handle_url_protocol_launch(url_arg)
+        sys.exit(0)
+        
+    # Tratamento de inicialização via protocolo direto com a URL no primeiro argumento (ex: infinity://...)
+    if len(sys.argv) > 1 and sys.argv[1].startswith("infinity://"):
+        handle_url_protocol_launch(sys.argv[1])
+        sys.exit(0)
+        
+    # Tratamento de execução em modo Agente Silencioso (segundo plano no Windows)
+    if len(sys.argv) > 1 and sys.argv[1] in ["--silent-agent", "--agent", "-silent"]:
+        print("Infinity AI Agent iniciado em segundo plano com sucesso.")
+        try:
+            while True:
+                time.sleep(3600)
+        except (KeyboardInterrupt, SystemExit):
+            sys.exit(0)
+
     # Tratamento de argumentos de execução em background para perfil headless dedicado (proxy + Chrome)
     if len(sys.argv) > 2 and sys.argv[1] == "--profile":
         key = sys.argv[2]
@@ -1248,3 +1502,4 @@ if __name__ == "__main__":
         root = tk.Tk()
         app = ProfileManagerApp(root, admin_mode=False)
         root.mainloop()
+

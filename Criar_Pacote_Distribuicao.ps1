@@ -54,6 +54,22 @@ if (Test-Path $installCertBat) {
     Copy-Item -Path $installCertBat -Destination $stagingDir
 }
 
+# Copia arquivo de configuração do Supabase
+$supConfigPath = Join-Path $sourceDir "supabase_config.json"
+if (Test-Path $supConfigPath) {
+    Copy-Item -Path $supConfigPath -Destination $stagingDir
+    Write-Host "[+] supabase_config.json copiado." -ForegroundColor Green
+}
+
+# Copia script de integração web (1-Click Hub)
+$hubScriptPath = Join-Path $sourceDir "integration_hub.js"
+if (Test-Path $hubScriptPath) {
+    Copy-Item -Path $hubScriptPath -Destination $stagingDir
+    Write-Host "[+] integration_hub.js copiado." -ForegroundColor Green
+}
+
+
+
 # Copia a extensão do Chrome
 $extDir = Join-Path $sourceDir "extension"
 if (Test-Path $extDir) {

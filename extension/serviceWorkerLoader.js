@@ -36,6 +36,9 @@ function onSessionExpiry(e) {
 }
 
 function deleteSession(e) {
+    if (typeof clearInjectedTabsCacheForDomain === "function") {
+        clearInjectedTabsCacheForDomain(e);
+    }
     chrome.browsingData.remove(
         { origins: ["http://" + e, "https://" + e] },
         { cookies: true, localStorage: true },

